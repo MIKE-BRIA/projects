@@ -10,7 +10,7 @@ function App() {
     <>
       <Header />
       {!isAuth ? <Auth /> : <UserProfile />}
-      <Counter />
+      {isAuth && <Counter />}
     </>
   );
 }
