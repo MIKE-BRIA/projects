@@ -16,6 +16,7 @@ function EventForm({ event }) {
           id="title"
           type="text"
           name="title"
+          placeholder="Enter event title"
           required
           value={event?.title}
         />
@@ -26,6 +27,7 @@ function EventForm({ event }) {
           id="image"
           type="url"
           name="image"
+          placeholder="Enter image url"
           value={event?.image}
           required
         />

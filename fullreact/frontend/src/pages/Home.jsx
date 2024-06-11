@@ -1,5 +1,13 @@
 const HomePage = () => {
-  return <div>HomePage</div>;
+  return (
+    <>
+      <main>
+        <section className="home">
+          <img src="event.jpeg" alt="" className="" />
+        </section>
+      </main>
+    </>
+  );
 };
 
 export default HomePage;
