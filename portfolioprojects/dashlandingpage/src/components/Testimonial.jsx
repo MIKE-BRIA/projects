@@ -1,6 +1,6 @@
 const DUMMY_TESTIMONIES = [
   {
-    img: "path/to/image1.jpg",
+    img: "images/image1.jpg",
     title: "Amazing Service!",
     words:
       "This service has significantly improved our productivity and efficiency. Highly recommend it to everyone!",
@@ -8,7 +8,7 @@ const DUMMY_TESTIMONIES = [
     position: "CEO, Company A",
   },
   {
-    img: "path/to/image2.jpg",
+    img: "images/image2.jpg",
     title: "Fantastic Support!",
     words:
       "The support team was very responsive and helped us resolve all issues quickly. Great experience!",
@@ -16,7 +16,7 @@ const DUMMY_TESTIMONIES = [
     position: "CTO, Company B",
   },
   {
-    img: "path/to/image3.jpg",
+    img: "images/image3.jpg",
     title: "Great Value!",
     words:
       "The templates are versatile and easy to customize. We saved a lot of time and resources using this service.",
@@ -27,7 +27,7 @@ const DUMMY_TESTIMONIES = [
 
 const Testimonial = () => {
   return (
-    <main className="bg-slate-100 p-6 max-w-large  m-auto rounded-lg">
+    <main id="testimonials" className="bg-slate-100 p-6 max-w-large  m-auto ">
       <h2 className="text-2xl font-semibold  mt-8 text-center mb-8">
         What Our Clients Say
       </h2>
@@ -37,12 +37,12 @@ const Testimonial = () => {
             <img
               src={testimony.img}
               alt={testimony.name}
-              className="w-16 h-16 rounded-full mx-auto mb-4"
+              className="w-16 h-16 object-cover rounded-full mx-auto mb-4"
             />
             <h3 className="text-lg text-center font-bold mb-2">
               {testimony.title}
             </h3>
-            <p className="italic mb-4">{testimony.words}</p>
+            <p className="italic mb-4 text-center">{testimony.words}</p>
             <div className=" text-center">
               <p className="font-semibold">{testimony.name}</p>
               <p className="text-sm text-gray-600">{testimony.position}</p>

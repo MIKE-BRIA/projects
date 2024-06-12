@@ -11,7 +11,7 @@ const Getstarted = () => {
               with lots of templates to choose from you can pick and customize
               the template you find nice to use for your application
             </p>
-            <button className="bg-blue-600 px-2 mt-6 py-1 flex gap-3 text-white rounded-lg">
+            <button className="bg-blue-600 hover:bg-blue-900 px-2 mt-6 py-1 flex gap-3 text-white rounded-lg">
               Get started for free
               <svg
                 xmlns="http://www.w3.org/2000/svg"

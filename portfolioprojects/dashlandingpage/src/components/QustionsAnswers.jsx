@@ -35,12 +35,12 @@ const QuestionsAnswers = () => {
           <div key={index} className="border-b pb-4 flex flex-col items-center">
             <button
               onClick={() => toggleAnswer(index)}
-              className="w-8/12 text-center text-lg font-medium py-2 px-1 bg-gray-300 focus:outline-none"
+              className="w-full md:w-8/12 text-center text-lg font-medium py-2 px-1 bg-gray-300 focus:outline-none"
             >
               {item.question}
             </button>
             <div
-              className={`mt-2 pl-4 text-gray-700 text-center w-8/12 transition-all ${
+              className={`mt-2 pl-4 text-gray-700 text-center w-full md:w-8/12 transition-all ${
                 activeIndex === index ? "max-h-96" : "max-h-0"
               } overflow-hidden`}
             >

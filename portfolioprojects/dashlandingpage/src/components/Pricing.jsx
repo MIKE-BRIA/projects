@@ -27,7 +27,10 @@ const pricingData = [
 const Pricing = () => {
   return (
     <>
-      <main className="bg-blue-100 p-4 max-w-large m-auto  flex flex-col ">
+      <main
+        id="pricing"
+        className="bg-blue-100 p-4 max-w-large m-auto  flex flex-col "
+      >
         <h1 className="text-center mt-8">Pricing and Plans</h1>
 
         <section className="flex flex-wrap justify-center gap-4">

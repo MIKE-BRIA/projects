@@ -1,7 +1,10 @@
 const Demo = () => {
   return (
     <>
-      <main className="bg-slate-100 p-4 max-w-large m-auto rounded-t-lg flex flex-col justify-center items-center">
+      <main
+        id="demo"
+        className="bg-slate-100 p-4 max-w-large m-auto rounded-t-lg flex flex-col justify-center items-center"
+      >
         <div className="text-center w-full md:w-3/6">
           <h1 className="mb-4 mt-6 text-2xl">
             Get things done faster with already made Dashboards Templates
@@ -11,10 +14,10 @@ const Demo = () => {
             easy to intergrate Dashboards
           </p>
           <div className="flex flex-col md:flex-row gap-2 mt-3 justify-center">
-            <button className="bg-blue-600 px-2 py-1 text-white rounded-lg">
+            <button className="bg-blue-600 px-2 py-1 text-white rounded-lg hover:bg-blue-900">
               Get started for free
             </button>
-            <button className="bg-white px-2 py-2 text-black rounded-lg">
+            <button className="bg-white px-2 py-2 hover:bg-gray-100 text-black rounded-lg">
               Learn more
             </button>
           </div>
