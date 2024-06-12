@@ -5,3 +5,7 @@
 h1 {
   @apply text-xl font-bold;
 }
+
+body {
+  @apply bg-gray-900;
+}
