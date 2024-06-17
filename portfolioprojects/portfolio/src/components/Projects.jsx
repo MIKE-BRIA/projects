@@ -8,12 +8,14 @@ const projects = [
     github: "https://github.com/username/project1",
   },
   {
-    img: "/images/project2.jpg",
-    title: "Project 2",
-    parag: "This is a description of Project 2.",
-    tech: ["react", "tailwind css"],
-    link: "https://live-demo-link.com",
-    github: "https://github.com/username/project2",
+    img: "/projectimages/dashboo.png",
+    title: "Saas Landing Page",
+    parag:
+      "This is a Landing page for a Saas company that deals in building custom dashboard for their users at an affordable price",
+    tech: ["React", "Tailwind css", "Git/Github", "Javascript"],
+    link: "https://dashland.web.app/",
+    github:
+      "https://github.com/MIKE-BRIA/projects/tree/master/portfolioprojects/dashlandingpage",
   },
 ];
 
@@ -25,16 +27,16 @@ const Projects = () => {
         className="bg-blue-100 p-8 max-w-large m-auto flex flex-col items-center"
       >
         <h1 className="text-3xl font-bold mb-8">Projects</h1>
-        <div className="flex flex-col md:flex-row flex-wrap gap-10 w-full md:w-10/12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full md:w-10/12">
           {projects.map((project) => (
             <article
               key={project.title}
-              className="bg-white p-4 rounded-lg shadow-md"
+              className="bg-white p-0 rounded-lg shadow-md "
             >
               <img
                 src={project.img}
                 alt={project.title}
-                className="rounded-t-lg w-full h-48 object-cover"
+                className="rounded-t-lg w-full h-56  object-cover"
               />
               <div className="p-4">
                 <h2 className="text-2xl text-center font-bold mb-2">
