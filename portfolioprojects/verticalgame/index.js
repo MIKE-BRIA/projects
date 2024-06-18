@@ -15,15 +15,37 @@ for (let i = 0; i < floorCollisions.length; i += 36) {
 }
 
 const collisionBlocks = [];
-floorCollisions2D.forEach((row) => {
-  row.forEach((symbol) => {
+floorCollisions2D.forEach((row, y) => {
+  row.forEach((symbol, x) => {
     if (symbol === 202) {
       console.log("draw a block here");
       collisionBlocks.push(
         new CollisionBlock({
           position: {
-            x: 0,
-            y: 0,
+            x: x * 16,
+            y: y * 16,
+          },
+        })
+      );
+    }
+  });
+});
+
+const platformCollisions2D = [];
+for (let i = 0; i < platformCollisions.length; i += 36) {
+  platformCollisions2D.push(platformCollisions.slice(i, i + 36));
+}
+
+const platformCollisionBlocks = [];
+platformCollisions2D.forEach((row, y) => {
+  row.forEach((symbol, x) => {
+    if (symbol === 202) {
+      console.log("draw a block here");
+      platformCollisionBlocks.push(
+        new CollisionBlock({
+          position: {
+            x: x * 16,
+            y: y * 16,
           },
         })
       );
@@ -34,13 +56,11 @@ floorCollisions2D.forEach((row) => {
 const gravity = 0.5;
 
 const player = new Player({
-  x: 0,
-  y: 0,
-});
-
-const player2 = new Player({
-  x: 300,
-  y: 100,
+  position: {
+    x: 100,
+    y: 0,
+  },
+  collisionBlocks,
 });
 
 const keys = {
@@ -69,14 +89,15 @@ function animate() {
   c.scale(4, 4);
   c.translate(0, -background.image.height + scaledCanvas.height);
   background.update();
-  c.restore();
+  collisionBlocks.forEach((collisionBlock) => collisionBlock.update());
+  platformCollisionBlocks.forEach((block) => block.update());
 
   player.update();
-  player2.update();
 
   player.velocity.x = 0;
-  if (keys.d.pressed) player.velocity.x = 5;
-  else if (keys.a.pressed) player.velocity.x = -5;
+  if (keys.d.pressed) player.velocity.x = 3;
+  else if (keys.a.pressed) player.velocity.x = -3;
+  c.restore();
 }
 
 animate();
@@ -90,7 +111,7 @@ window.addEventListener("keydown", (e) => {
       keys.a.pressed = true;
       break;
     case "w":
-      player.velocity.y = -15;
+      player.velocity.y = -9;
       break;
   }
 });
