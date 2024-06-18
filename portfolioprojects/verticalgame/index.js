@@ -61,6 +61,7 @@ const player = new Player({
     y: 0,
   },
   collisionBlocks,
+  imageSrc: "./images/worrior/Idle.png",
 });
 
 const keys = {
