@@ -13,10 +13,10 @@ const Nav = () => {
           <div className="flex items-center">
             <input
               type="text"
-              placeholder="Search by place"
+              placeholder="Search by city of choice"
               name=""
               id=""
-              className="text-lg p-1 rounded-l-lg text-center border-l-none"
+              className="text-lg p-1 rounded-l-lg text-center border-none"
             />
             <button className="bg-red-300 h-full flex items-center p-1 w-10 rounded-r-lg">
               <svg
