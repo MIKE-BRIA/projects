@@ -1,16 +1,15 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-export function mongooseConnect() {
+function mongooseConnect() {
   mongoose.Promise = global.Promise;
 
-  if (!mongoose.connection.readyState) {
-    mongoose
-      .connect(process.env.MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
-      .catch((error) => {
-        console.error("MongoDB connection error:", error);
-      });
+  // Check if already connected or connecting
+  if (mongoose.connection.readyState === 0) {
+    return mongoose.connect(process.env.MONGODB_URI);
+  } else {
+    // If already connected or connecting, return a resolved promise
+    return Promise.resolve();
   }
 }
+
+module.exports = mongooseConnect;
