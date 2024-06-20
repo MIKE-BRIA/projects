@@ -20,7 +20,10 @@ const router = createBrowserRouter([
           {
             path: "houses",
             element: <AdminHouses />,
-            children: [{ path: "new", element: <Addhouse /> }],
+            children: [
+              { path: "new", element: <Addhouse /> },
+              { path: "edit/:id", element: <Addhouse /> },
+            ],
           },
         ],
       },

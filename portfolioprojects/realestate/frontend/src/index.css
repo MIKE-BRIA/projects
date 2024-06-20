@@ -22,6 +22,10 @@ table.basic thead tr td {
   @apply text-sm text-gray-600 uppercase border-b border-gray-200 px-4 py-2;
 }
 
+.btn-cancel {
+  @apply bg-red-200 p-1 rounded-md;
+}
+
 table.basic tr td {
   @apply px-4 py-2 border;
 }
