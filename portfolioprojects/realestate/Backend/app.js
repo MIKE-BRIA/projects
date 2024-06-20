@@ -1,33 +1,31 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+require("dotenv").config();
+const mongooseConnect = require("./data/mongoose");
+const cors = require("cors");
+const adminRoutes = require("./routes/admin.routes");
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
+// Middleware to parse incoming JSON requests
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use((error, req, res, next) => {
-  const status = error.status || 500;
-  const message = error.message || "Something went wrong.";
-  res.status(status).json({ message: message });
-});
+// Use the admin routes
+app.use(adminRoutes);
 
 let port = 3000;
-
 if (process.env.PORT) {
   port = process.env.PORT;
 }
 
-db.connectToDatabase()
-  .then(function () {
-    app.listen(port);
+mongooseConnect()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
   })
-  .catch(function (error) {
-    console.log("Failed to connect to the database!");
-    console.log(error);
+  .catch((error) => {
+    console.error("Failed to connect to the database!");
+    console.error(error);
   });
