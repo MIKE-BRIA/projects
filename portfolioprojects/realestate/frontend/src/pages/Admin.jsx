@@ -4,7 +4,7 @@ const Admin = () => {
   return (
     <>
       <main>
-        <div className="flex justify-center items-center">
+        <div className="flex ">
           <ul className="flex  mx-auto">
             <li>
               <Datacard title="Total No. Houses" data="5489" />

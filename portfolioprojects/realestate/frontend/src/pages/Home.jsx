@@ -24,19 +24,23 @@ const Home = () => {
   }
 
   return (
-    <main className="container min-h-screen mx-auto px-1 py-8">
-      {houses.length === 0 ? (
-        <p>No houses found.</p>
-      ) : (
-        <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 md:gap-3">
-          {houses.map((house) => (
-            <li key={house._id}>
-              <CardHouse housedata={house} />
-            </li>
-          ))}
-        </ul>
-      )}
-    </main>
+    <>
+      <main className="h-screen">
+        <div className="mt-6">
+          {houses.length === 0 ? (
+            <p>No houses found.</p>
+          ) : (
+            <ul className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 md:gap-3">
+              {houses.map((house) => (
+                <li key={house._id}>
+                  <CardHouse housedata={house} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </main>
+    </>
   );
 };
 
