@@ -63,7 +63,6 @@ async function getNewHouse(req, res, next) {
   try {
     await mongooseConnect();
 
-    console.log(req.params);
     const houses = await House.find();
 
     res.json({ message: "Data fetched successfully", houses: houses });
@@ -77,6 +76,7 @@ async function getNewHouse(req, res, next) {
 
 //!deleting house data by id
 async function deleteNewHouse(req, res, next) {
+  await mongooseConnect();
   try {
     const { houseId } = req.params;
     const deletedHouse = await House.findByIdAndDelete(houseId);
