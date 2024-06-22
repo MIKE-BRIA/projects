@@ -81,7 +81,7 @@ const AdminNav = () => {
                 d="M6 6h.008v.008H6V6Z"
               />
             </svg>
-            Categories
+            Agents
           </Link>
           <Link
             href="/admin/orders"

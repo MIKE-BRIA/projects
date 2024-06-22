@@ -37,8 +37,8 @@ const Nav = () => {
           </div>
           <div className="flex gap-8 items-center">
             <nav className="flex gap-8">
-              <Link>Buy</Link>
-              <Link>Rent</Link>
+              <Link to="buy">Buy</Link>
+              <Link to="rent">Rent</Link>
               <Link>Saved Homes</Link>
               <Link to="admin">Admin</Link>
             </nav>

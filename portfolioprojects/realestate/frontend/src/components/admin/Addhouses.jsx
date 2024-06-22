@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function Addhouse() {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     amenities: "",
@@ -57,16 +58,28 @@ export default function Addhouse() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/houses",
-        formData
-      );
-      console.log(response.data);
-      navigate("/admin/houses");
-    } catch (error) {
-      console.error("There was an error updating the house listing!", error);
+    if (id) {
+      try {
+        await axios.put(`http://localhost:3000/houses/${id}`, formData);
+        navigate("/admin/houses");
+      } catch (error) {
+        console.error("There was an error updating the house listing!", error);
+      }
+    } else {
+      try {
+        await axios.post("http://localhost:3000/houses", formData);
+
+        navigate("/admin/houses");
+      } catch (error) {
+        if (error.response.data.message) {
+          setError(error.response.data.message);
+        }
+      }
     }
+  }
+
+  function handleCancel() {
+    navigate("/admin/houses");
   }
 
   function handleInputChange(e) {
@@ -79,6 +92,11 @@ export default function Addhouse() {
 
   return (
     <>
+      {error && (
+        <p className="text-red-500 text-xl font-mono bg-blue-100 p-2 text-center mb-4 rounded-xl">
+          {error}
+        </p>
+      )}
       <form onSubmit={handleSubmit}>
         {/* //*title and amenities */}
         <div className="flex">
@@ -269,7 +287,7 @@ export default function Addhouse() {
         ></textarea>
 
         <div className="flex gap-3 justify-end">
-          <button type="button" className="btn-cancel">
+          <button type="button" onClick={handleCancel} className="btn-cancel">
             Cancel
           </button>
           <button type="submit" className="btn-primary">

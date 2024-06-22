@@ -1,10 +1,18 @@
 import PropTypes from "prop-types";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 
 const CardHouse = ({ housedata }) => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const formattedPrice = housedata.price.toLocaleString("en-US", {
     style: "currency",
     currency: "USD",
   });
+
+  const toggleBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+  };
 
   return (
     <article className="bg-white border md:border-0 md:rounded-lg md:shadow-md overflow-hidden relative">
@@ -16,6 +24,16 @@ const CardHouse = ({ housedata }) => {
         />
         <span className="absolute top-0 left-0 bg-blue-500 text-white text-xs font-bold px-2 py-1 m-2 rounded">
           {housedata.category === "for sale" ? "For Sale" : "For Rent"}
+        </span>
+        <span className="absolute top-0 right-0 p-2">
+          <button
+            className={`text-xl ${
+              isBookmarked ? "text-blue-500" : "text-black"
+            }`}
+            onClick={toggleBookmark}
+          >
+            <FontAwesomeIcon icon={faBookmark} />
+          </button>
         </span>
       </div>
       <div className="p-4">
