@@ -6,6 +6,10 @@
   @apply max-w-large m-auto;
 }
 
+.body {
+  @apply bg-slate-300;
+}
+
 h1 {
   @apply text-2xl font-bold;
 }
