@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector,
+} from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const fetchHouses = createAsyncThunk("houses/fetchHouses", async () => {
@@ -29,5 +33,16 @@ const houseSlice = createSlice({
       });
   },
 });
+
+export const selectAllHouses = (state) => state.houses.houses;
+//*getting houses that are only available for rent
+export const selectRentHouses = createSelector([selectAllHouses], (houses) =>
+  houses.filter((house) => house.category === "rent")
+);
+
+//*getting houses that are only available for sale
+export const selectBuyHouses = createSelector([selectAllHouses], (houses) =>
+  houses.filter((house) => house.category === "for sale")
+);
 
 export default houseSlice.reducer;
