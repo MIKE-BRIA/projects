@@ -3,6 +3,7 @@ require("dotenv").config();
 const mongooseConnect = require("./data/mongoose");
 const cors = require("cors");
 const adminRoutes = require("./routes/admin.routes");
+const agentRoutes = require("./routes/agent.routes");
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Use the admin routes
 app.use(adminRoutes);
+app.use(agentRoutes);
 
 let port = 3000;
 if (process.env.PORT) {
