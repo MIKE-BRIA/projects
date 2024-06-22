@@ -1,70 +1,30 @@
-// import { useEffect, useState } from "react";
-// import axios from "axios";
-// import CardHouse from "../components/client/CardHouse";
-
-// const Home = () => {
-//   const [houses, setHouses] = useState([]);
-//   useEffect(() => {
-//     async function fetchHouseData() {
-//       const response = await axios("http://localhost:3000/houses");
-//       console.log(response.data);
-
-//       // const fetchedHouseData = response.data;
-//       setHouses(response.data);
-//     }
-
-//     fetchHouseData();
-//   }, []);
-//   return (
-//     <>
-//       <main className="container mx-auto px-4 py-8">
-//         {houses.length === 0 ? (
-//           <p>No houses found.</p>
-//         ) : (
-//           <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-//             {houses.map((house) => (
-//               <li key={house._id}>
-//                 <CardHouse housedata={house} />
-//               </li>
-//             ))}
-//           </ul>
-//         )}
-//       </main>
-//     </>
-//   );
-// };
-
-// export default Home;
-
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import CardHouse from "../components/client/CardHouse";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHouses } from "../store/slices/houseSlice";
+import { useLocation } from "react-router-dom";
+import { Bars } from "react-loading-icons";
 
 const Home = () => {
-  const [houses, setHouses] = useState([]);
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const houses = useSelector((state) => state.houses.houses);
+  const houseStatus = useSelector((state) => state.houses.status);
 
   useEffect(() => {
-    async function fetchHouseData() {
-      try {
-        const response = await axios.get("http://localhost:3000/houses");
-        console.log(response.data.houses);
+    dispatch(fetchHouses());
+  }, [dispatch, location]);
 
-        setHouses(response.data.houses);
-      } catch (error) {
-        console.error("Error fetching house data:", error);
-      }
-    }
-
-    fetchHouseData();
-  }, []);
-
-  // Render loading state or error message while data is fetching or if houses is still undefined
-  if (houses === null) {
-    return <p>Loading...</p>;
+  if (houseStatus === "loading") {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Bars />
+      </div>
+    );
   }
 
   return (
-    <main className="container mx-auto px-1 py-8">
+    <main className="container min-h-screen mx-auto px-1 py-8">
       {houses.length === 0 ? (
         <p>No houses found.</p>
       ) : (

@@ -1,28 +1,24 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { withSwal } from "react-sweetalert2";
+import { fetchHouses } from "../store/slices/houseSlice";
+import { Bars } from "react-loading-icons";
 
 export function AdminHouses({ swal }) {
   const location = useLocation();
   const isAddingNewHouse = location.pathname.endsWith("/new");
   const isEditing = location.pathname.includes("/edit");
-  const [houses, setHouses] = useState([]);
+  const dispatch = useDispatch();
+  const houses = useSelector((state) => state.houses.houses);
+  const houseStatus = useSelector((state) => state.houses.status);
 
   useEffect(() => {
-    fetchHouseData();
-  }, []);
+    dispatch(fetchHouses());
+  }, [dispatch, location]);
 
-  async function fetchHouseData() {
-    try {
-      const response = await axios.get("http://localhost:3000/houses");
-      setHouses(response.data.houses);
-    } catch (error) {
-      console.error("Error fetching houses:", error);
-    }
-  }
-
-  //*deleting category
+  //*deleting House
   function deleteHouse(house) {
     swal
       .fire({
@@ -42,7 +38,7 @@ export function AdminHouses({ swal }) {
         if (result.isConfirmed) {
           await axios.delete(`http://localhost:3000/houses/${houseId}`);
 
-          fetchHouseData();
+          dispatch(fetchHouses());
         }
       });
   }
@@ -57,6 +53,14 @@ export function AdminHouses({ swal }) {
     });
   };
 
+  if (houseStatus === "loading") {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Bars />
+      </div>
+    );
+  }
+
   return (
     <>
       <main>
@@ -69,12 +73,12 @@ export function AdminHouses({ swal }) {
               <table className="basic">
                 <thead>
                   <tr>
-                    <th>House Title</th>
-                    <th>Location</th>
-                    <th>Street</th>
-                    <th>Category</th>
-                    <th>Created/Updated Date</th>
-                    <th>Action</th>
+                    <td>House Title</td>
+                    <td>Location</td>
+                    <td>Street</td>
+                    <td>Category</td>
+                    <td>Created/Updated Date</td>
+                    <td></td>
                   </tr>
                 </thead>
                 <tbody>
