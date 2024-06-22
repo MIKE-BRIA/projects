@@ -9,6 +9,9 @@ import store from "./store/store";
 import { Provider } from "react-redux";
 import Buy from "./pages/Buy";
 import Rent from "./pages/Rent";
+import Agents from "./pages/Agents";
+import Signup from "./components/client/Signup";
+import Login from "./components/client/Login";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +20,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "buy", element: <Buy /> },
+      { path: "signup", element: <Signup /> },
+      { path: "login", element: <Login /> },
       { path: "rent", element: <Rent /> },
       {
         path: "admin",
@@ -31,6 +36,7 @@ const router = createBrowserRouter([
               { path: "edit/:id", element: <Addhouse /> },
             ],
           },
+          { path: "agents", element: <Agents /> },
         ],
       },
     ],
