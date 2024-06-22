@@ -5,6 +5,10 @@ import Admin from "./pages/Admin";
 import AdminLayout from "./pages/AdminLayout";
 import AdminHouses from "./pages/AdminHouses";
 import Addhouse from "./components/admin/Addhouses";
+import store from "./store/store";
+import { Provider } from "react-redux";
+import Buy from "./pages/Buy";
+import Rent from "./pages/Rent";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +16,8 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <Home /> },
+      { path: "buy", element: <Buy /> },
+      { path: "rent", element: <Rent /> },
       {
         path: "admin",
         element: <AdminLayout />,
@@ -32,7 +38,11 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
 };
 
 export default App;
