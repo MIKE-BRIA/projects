@@ -11,4 +11,6 @@ router.delete("/houses/:houseId", adminController.deleteNewHouse);
 
 router.get("/houses/:houseId", adminController.getHouseByID);
 
+router.put("/houses/:houseId", adminController.updateHouse);
+
 module.exports = router;

@@ -24,7 +24,9 @@ async function createNewHouse(req, res, next) {
     } = req.body;
 
     if (!title || !description || !price || !category) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res
+        .status(400)
+        .json({ message: "All fields are required to Add New House" });
     }
 
     const newHouse = await House.create({
@@ -106,9 +108,64 @@ async function getHouseByID(req, res, next) {
   }
 }
 
+//!upating already existing house data
+async function updateHouse(req, res, next) {
+  await mongooseConnect();
+
+  try {
+    const {
+      title,
+      amenities,
+      country,
+      state,
+      street,
+      bedrooms,
+      bathrooms,
+      size,
+      category,
+      yearBuilt,
+      agent,
+      agentemail,
+      price,
+      description,
+    } = req.body;
+
+    if (!title || !description || !price || !category) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const houseId = req.params.houseId;
+
+    await House.updateOne(
+      { _id: houseId },
+      {
+        title,
+        amenities,
+        country,
+        state,
+        street,
+        bedrooms,
+        bathrooms,
+        size,
+        category,
+        yearBuilt,
+        agent,
+        agentemail,
+        price,
+        description,
+      }
+    );
+
+    res.status(201).json({ message: "House updated successfully" });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
   createNewHouse,
   getNewHouse,
   deleteNewHouse,
   getHouseByID,
+  updateHouse,
 };
