@@ -79,10 +79,13 @@ async function deleteNewHouse(req, res, next) {
   await mongooseConnect();
   try {
     const { houseId } = req.params;
+
     const deletedHouse = await House.findByIdAndDelete(houseId);
+
     if (!deletedHouse) {
       return res.status(404).json({ error: "House not found" });
     }
+
     res.json({ message: "House deleted successfully", deletedHouse });
   } catch (error) {
     console.error("Error deleting house:", error);
