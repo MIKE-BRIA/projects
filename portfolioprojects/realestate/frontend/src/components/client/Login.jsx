@@ -1,32 +1,37 @@
 // Signup.js
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-// import { useState } from "react";
+import { useState } from "react";
+import axios from "axios";
 // import { useDispatch, useSelector } from "react-redux";
 // import { registerUser } from "../store/slices/authSlice";
 
 const Login = () => {
+  const navigate = useNavigate();
   //   const dispatch = useDispatch();
   //   const { status, error } = useSelector((state) => state.auth);
 
-  //   const [formData, setFormData] = useState({
-  //     name: "",
-  //     email: "",
-  //     password: "",
-  //   });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  //   const handleChange = (e) => {
-  //     const { name, value } = e.target;
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       [name]: value,
-  //     }));
-  //   };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //   dispatch(registerUser(formData));
+
+    const response = await axios.post("http://localhost:3000/login", formData);
+    console.log(response);
+
+    navigate("/");
   };
 
   return (
@@ -49,8 +54,8 @@ const Login = () => {
               type="email"
               id="email"
               name="email"
-              // value={formData.email}
-              // onChange={handleChange}
+              value={formData.email}
+              onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
@@ -65,8 +70,8 @@ const Login = () => {
               type="password"
               id="password"
               name="password"
-              // value={formData.password}
-              // onChange={handleChange}
+              value={formData.password}
+              onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
@@ -77,11 +82,8 @@ const Login = () => {
           >
             Login
           </button>
-          <p className="mt-6 text-center">
-            Don&apos;t have account{" "}
-            <Link to="/signup" className="btn-primary">
-              Sign up instead
-            </Link>
+          <p className="w-full bg-indigo-300 py-2 mt-3 px-4 text-center border border-transparent rounded-md shadow-sm text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <Link to="/signup">Don&apos;t have account Sign up instead</Link>
           </p>
         </form>
       </div>
