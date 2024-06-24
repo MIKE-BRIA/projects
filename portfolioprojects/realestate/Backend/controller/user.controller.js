@@ -15,6 +15,10 @@ async function createNewUser(req, res, next) {
         .json({ message: "All fields are required to create a new user" });
     }
 
+    if (password < 6 || !email.includes("@")) {
+      return res.status(400).json({ message: "invalid inputs" });
+    }
+
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Passwords do not match" });
     }
@@ -44,6 +48,36 @@ async function createNewUser(req, res, next) {
 //!user login functionality
 async function loginUser(req, res, next) {
   try {
+    await mongooseConnect();
+
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(401)
+        .json({ message: "All input fields are required to log you in" });
+    }
+
+    if (password < 6 || !email.includes("@")) {
+      return res.status(401).json({ message: "invalid inputs" });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      return res
+        .status(401)
+        .json({ message: "this email does not have an account with us" });
+    }
+
+    const passwordsame = await bcrypt.compare(password, existingUser.password);
+
+    if (!passwordsame) {
+      return res
+        .status(401)
+        .json({ message: "You have entered wrong password" });
+    }
+
+    res.status(201).json({ message: "User login successfully" });
   } catch (error) {
     console.error("Error creating user:", error);
     res
@@ -54,4 +88,5 @@ async function loginUser(req, res, next) {
 
 module.exports = {
   createNewUser,
+  loginUser,
 };
