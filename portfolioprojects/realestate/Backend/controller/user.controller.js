@@ -77,7 +77,23 @@ async function loginUser(req, res, next) {
         .json({ message: "You have entered wrong password" });
     }
 
-    res.status(201).json({ message: "User login successfully" });
+    req.session.user = {
+      id: existingUser._id.toString(),
+      email: existingUser.email,
+    };
+
+    if (
+      req.session.user.email === "brianmichaeladero@gmail.com" ||
+      req.session.user.email === "test@gmail.com"
+    ) {
+      req.session.isAdmin = true;
+    } else {
+      req.session.isAuthenticated = true;
+    }
+
+    req.session.save(function () {
+      res.status(201).json({ message: "User login successfully" });
+    });
   } catch (error) {
     console.error("Error creating user:", error);
     res
