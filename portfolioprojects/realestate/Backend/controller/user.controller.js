@@ -102,7 +102,23 @@ async function loginUser(req, res, next) {
   }
 }
 
+//!getting user session from the database
+async function getSession(req, res) {
+  await mongooseConnect();
+
+  if (req.session.user) {
+    res.json({
+      user: req.session.user,
+      isAdmin: req.session.isAdmin,
+      isAuth: req.session.isAuthenticated,
+    });
+  } else {
+    res.status(401).json({ message: "Not authenticated" });
+  }
+}
+
 module.exports = {
   createNewUser,
   loginUser,
+  getSession,
 };

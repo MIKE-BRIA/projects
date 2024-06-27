@@ -14,7 +14,6 @@ const app = express();
 
 const sessionStore = new mongoDBStore({
   uri: "mongodb+srv://brianmichaeladero:sundugweno@cluster0.alp9zdo.mongodb.net/RealEstate",
-  // databaseName: "RealEstate",
   collection: "sessions",
 });
 
