@@ -7,6 +7,7 @@ import axios from "axios";
 
 export const fetchHouses = createAsyncThunk("houses/fetchHouses", async () => {
   const response = await axios.get("http://localhost:3000/houses");
+
   return response.data.houses;
 });
 
