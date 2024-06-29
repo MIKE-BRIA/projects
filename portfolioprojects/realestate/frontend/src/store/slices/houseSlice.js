@@ -15,6 +15,7 @@ const houseSlice = createSlice({
   name: "house",
   initialState: {
     houses: [],
+    savedhouses: [],
     status: "idle",
     error: null,
   },

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const CardHouse = ({ housedata }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -17,11 +18,13 @@ const CardHouse = ({ housedata }) => {
   return (
     <article className="bg-white border md:border-0 md:rounded-lg md:shadow-md overflow-hidden relative">
       <div className="relative">
-        <img
-          className="h-64 w-full object-cover"
-          src={housedata.image}
-          alt="house"
-        />
+        <Link to={`/housedetails/${housedata._id}`}>
+          <img
+            className="h-64 w-full object-cover"
+            src={housedata.image}
+            alt="house"
+          />
+        </Link>
         <span className="absolute top-0 left-0 bg-blue-500 text-white text-xs font-bold px-2 py-1 m-2 rounded">
           {housedata.category === "for sale" ? "For Sale" : "For Rent"}
         </span>

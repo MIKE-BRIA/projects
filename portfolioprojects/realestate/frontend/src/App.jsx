@@ -12,6 +12,7 @@ import Rent from "./pages/Rent";
 import Agents from "./pages/Agents";
 import Signup from "./components/client/Signup";
 import Login from "./components/client/Login";
+import Housedetail from "./pages/Housedetail";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "buy", element: <Buy /> },
+      { path: "housedetails/:id", element: <Housedetail /> },
       { path: "signup", element: <Signup /> },
       { path: "login", element: <Login /> },
       { path: "rent", element: <Rent /> },

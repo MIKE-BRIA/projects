@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 
 const Nav = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const Nav = () => {
         const response = await axios.get("http://localhost:3000/session");
         console.log(response.data);
         setUser(response.data.user);
-        setIsAdmin(response.data.isAdmin);
+        // setIsAdmin(response.data.isAdmin);
       } catch (error) {
         console.error("Error fetching session:", error);
       }
@@ -25,7 +25,7 @@ const Nav = () => {
     try {
       await axios.post("/api/logout");
       setUser(null);
-      setIsAdmin(false);
+      // setIsAdmin(false);
       history.push("/login");
     } catch (error) {
       console.error("Error logging out:", error);
@@ -71,7 +71,7 @@ const Nav = () => {
               <Link to="buy">Buy</Link>
               <Link to="rent">Rent</Link>
               <Link>Saved Homes</Link>
-              {isAdmin && <Link to="/admin">Admin</Link>}
+              <Link to="/admin">Admin</Link>
             </nav>
             <button className="border border-gray-300 shadow-md p-1 rounded-lg">
               {user ? (
