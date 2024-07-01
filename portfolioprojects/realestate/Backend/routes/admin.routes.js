@@ -13,4 +13,6 @@ router.get("/houses/:houseId", adminController.getHouseByID);
 
 router.put("/houses/:houseId", adminController.updateHouse);
 
+router.post("/images", adminController.addImage);
+
 module.exports = router;

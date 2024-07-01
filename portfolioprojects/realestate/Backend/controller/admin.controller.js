@@ -1,5 +1,7 @@
 const mongooseConnect = require("../data/mongoose");
 const House = require("../models/House");
+const fs = require("fs/promises");
+const path = require("path");
 
 //!creating a new instance of house
 async function createNewHouse(req, res, next) {
@@ -165,10 +167,49 @@ async function updateHouse(req, res, next) {
   }
 }
 
+//!adding images
+async function addImage(req, res, next) {
+  try {
+    const formData = await req.formData();
+
+    // Check if the file exists in the form data
+    if (!formData.has("file")) {
+      return res.status(400).json({ message: "File is required" });
+    }
+
+    const file = formData.get("file");
+
+    if (!file) {
+      return res.status(400).json({ message: "Invalid file format" });
+    }
+
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = new Uint8Array(arrayBuffer);
+
+    const fileName = file.name;
+    const extension = fileName.split(".").pop();
+    const filename = `${Date.now()}.${extension}`;
+
+    // Ensure the uploads directory exists
+    const uploadDir = path.resolve(__dirname, "../public/uploads");
+    await fs.mkdir(uploadDir, { recursive: true });
+
+    const uploadPath = path.join(uploadDir, filename);
+    await fs.writeFile(uploadPath, buffer);
+
+    const link = `/uploads/${filename}`;
+    res.status(200).json({ links: [link] });
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    res.status(500).json({ error: "Server error", details: error.message });
+  }
+}
+
 module.exports = {
   createNewHouse,
   getNewHouse,
   deleteNewHouse,
   getHouseByID,
   updateHouse,
+  addImage,
 };

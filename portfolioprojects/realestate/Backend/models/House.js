@@ -16,6 +16,7 @@ const houseSchema = new mongoose.Schema(
     yearBuilt: { type: Number, required: true },
     agent: { type: String, required: true },
     agentemail: { type: String, required: true },
+    images: [{ type: String }],
     price: { type: Number, required: true },
     description: { type: String, required: true },
   },
