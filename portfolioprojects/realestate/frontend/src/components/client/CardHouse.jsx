@@ -21,7 +21,7 @@ const CardHouse = ({ housedata }) => {
         <Link to={`/housedetails/${housedata._id}`}>
           <img
             className="h-64 w-full object-cover"
-            src={housedata.image}
+            src={housedata.image || "/images/copy.jpeg"}
             alt="house"
           />
         </Link>
