@@ -3,6 +3,9 @@ const House = require("../models/House");
 const fs = require("fs/promises");
 const path = require("path");
 
+// const fs = require('fs').promises;
+const multer = require("multer");
+
 //!creating a new instance of house
 async function createNewHouse(req, res, next) {
   try {
@@ -171,6 +174,7 @@ async function updateHouse(req, res, next) {
 async function addImage(req, res, next) {
   try {
     const formData = await req.formData();
+    console.log(req.file);
 
     // Check if the file exists in the form data
     if (!formData.has("file")) {
