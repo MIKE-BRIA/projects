@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongooseConnect from "./db/connectDB.js";
 import cookieParser from "cookie-parser";
+import userRoutes from "./routes/user.routes.js";
 
 dotenv.config();
 mongooseConnect();
