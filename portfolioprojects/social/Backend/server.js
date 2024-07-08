@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongooseConnect from "./db/connectDB.js";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/user.routes.js";
+import postRoutes from "./routes/post.routes.js";
 
 dotenv.config();
 mongooseConnect();
@@ -15,6 +16,7 @@ app.use(cookieParser()); //
 
 //!Routes
 app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes);
 
 let PORT = process.env.PORT || 3000;
 
