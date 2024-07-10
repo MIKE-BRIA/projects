@@ -9,7 +9,15 @@ const postSchema = new mongoose.Schema(
     },
     text: { type: String, maxLength: 500 },
     img: { type: String, default: "" },
-    likes: { type: Number, default: 0 },
+    likes: [
+      {
+        //array if user id
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: [],
+      },
+    ],
+
     replies: [
       {
         userId: {
