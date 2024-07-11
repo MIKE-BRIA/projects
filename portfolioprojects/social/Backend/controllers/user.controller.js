@@ -158,6 +158,9 @@ export async function updateUser(req, res) {
 
     user = await user.save();
 
+    //*password should be null in response
+    user.password = null;
+
     res.status(200).json({ message: "Profile updated successfully", user });
   } catch (err) {
     res.status(500).json({ error: err.message });
