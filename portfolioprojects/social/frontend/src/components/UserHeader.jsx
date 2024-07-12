@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Flex,
-  Link,
   Menu,
   MenuButton,
   MenuItem,
@@ -10,19 +9,62 @@ import {
   Portal,
   Text,
   VStack,
-  useToast,
+  Button,
 } from "@chakra-ui/react";
 import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
+import userAtom from "../atoms/userAtom";
+import { useRecoilValue } from "recoil";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import useShowToast from "../hooks/useShowToast";
 
-const UserHeader = () => {
-  const toast = useToast();
+const UserHeader = ({ user }) => {
+  // const toast = useToast();
+  const showToast = useShowToast();
+  const currentUser = useRecoilValue(userAtom); //logged in user
+  const [following, setFollowing] = useState(
+    user.followers.includes(currentUser._id)
+  );
+  const [updating, setUpdating] = useState(false);
 
   function copyurl() {
     const currentUrl = window.location.href;
     navigator.clipboard.writeText(currentUrl).then(() => {
-      toast({ description: "copied to clipboard" });
+      // toast({ description: "copied to clipboard" });
+      showToast("copied to clipboard");
     });
+  }
+
+  async function handleFollowUnfollow() {
+    if (!currentUser) return showToast("Please Login to follow");
+
+    if (updating) return;
+    setUpdating(true);
+    try {
+      const res = await fetch(`/api/users/follow/${user._id}`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+      });
+
+      const data = await res.json();
+      if (data.error) return showToast("Error", data.error, "error");
+
+      if (following) {
+        showToast(`Unfollowed ${user.name}`);
+        user.followers.pop(); //simulate removing from followers
+      } else {
+        showToast(`Followed ${user.name}`);
+        user.followers.push(currentUser._id); //simulate adding to followers
+      }
+
+      setFollowing(!following);
+      console.log(data);
+    } catch (error) {
+      showToast("Error", error, "error");
+    } finally {
+      setUpdating(false);
+    }
   }
 
   return (
@@ -31,10 +73,10 @@ const UserHeader = () => {
         <Flex justifyContent={"space-between"} w={"full"}>
           <Box>
             <Text fontSize={"2xl"} fontWeight={"bold"}>
-              Mark Zuckerberg
+              {user.name}
             </Text>
             <Flex gap={2} alignItems={"center"}>
-              <Text fontSize={"sm"}>markzuckerberg</Text>
+              <Text fontSize={"sm"}>{user.username}</Text>
               <Text
                 fontSize={"xs"}
                 bg={"gray.dark"}
@@ -47,13 +89,37 @@ const UserHeader = () => {
             </Flex>
           </Box>
           <Box>
-            <Avatar name="user" src="/zuck-avatar.png" size={"xl"} />
+            {user.profilePic && (
+              <Avatar name={user.name} src={user.profilePic} size={"xl"} />
+            )}
+            {!user.profilePic && (
+              <Avatar
+                name={user.name}
+                src="https://bit.ly/broken-link"
+                size={"xl"}
+              />
+            )}
           </Box>
         </Flex>
-        <Text>Co-founder, executive chairman and CEO of Meta Platform </Text>
+        <Text>{user.bio} </Text>
+
+        {currentUser._id === user._id && (
+          <Link to="/update">
+            <Button size={"sm"}>Update Profile</Button>
+          </Link>
+        )}
+        {currentUser._id !== user._id && (
+          <Button
+            size={"sm"}
+            onClick={handleFollowUnfollow}
+            isLoading={updating}
+          >
+            {following ? "Unfollow" : "Follow"}
+          </Button>
+        )}
         <Flex w={"full"} justifyContent={"space-between"}>
           <Flex gap={2} alignItems={"center"}>
-            <Text color={"gray.light"}>3.2k followers</Text>
+            <Text color={"gray.light"}>{user.followers.length} followers</Text>
             <Box w={1} h={1} bg={"gray.light"} borderRadius={"full"}></Box>
             <Link color={"gray.light"}>instagram.com</Link>
           </Flex>
