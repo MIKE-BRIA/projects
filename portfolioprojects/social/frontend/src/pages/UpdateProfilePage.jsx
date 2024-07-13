@@ -18,10 +18,12 @@ import userAtom from "../atoms/userAtom";
 import { useRef } from "react";
 import usePreviewImg from "../hooks/usePreviewImg";
 import useShowToast from "../hooks/useShowToast";
+import { useNavigate } from "react-router-dom";
 
 export default function UpdateProfilePage() {
   const [user, setUser] = useRecoilState(userAtom);
   const fileRef = useRef(null);
+  const navigate = useNavigate();
   const showToast = useShowToast();
   const [updating, setUpdating] = useState(false);
   const [inputs, setInputs] = useState({
@@ -61,6 +63,7 @@ export default function UpdateProfilePage() {
       const datauser = data.user;
       setUser(datauser);
       localStorage.setItem("user-threads", JSON.stringify(datauser));
+      navigate("/");
     } catch (error) {
       showToast("Error", error, "error");
     } finally {
