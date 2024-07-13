@@ -24,7 +24,7 @@ const UserHeader = ({ user }) => {
   const showToast = useShowToast();
   const currentUser = useRecoilValue(userAtom); //logged in user
   const [following, setFollowing] = useState(
-    user.followers.includes(currentUser._id)
+    user.followers.includes(currentUser?._id)
   );
   const [updating, setUpdating] = useState(false);
 
@@ -55,7 +55,7 @@ const UserHeader = ({ user }) => {
         user.followers.pop(); //simulate removing from followers
       } else {
         showToast(`Followed ${user.name}`);
-        user.followers.push(currentUser._id); //simulate adding to followers
+        user.followers.push(currentUser?._id); //simulate adding to followers
       }
 
       setFollowing(!following);
@@ -103,12 +103,12 @@ const UserHeader = ({ user }) => {
         </Flex>
         <Text>{user.bio} </Text>
 
-        {currentUser._id === user._id && (
+        {currentUser?._id === user._id && (
           <Link to="/update">
             <Button size={"sm"}>Update Profile</Button>
           </Link>
         )}
-        {currentUser._id !== user._id && (
+        {currentUser?._id !== user._id && (
           <Button
             size={"sm"}
             onClick={handleFollowUnfollow}
