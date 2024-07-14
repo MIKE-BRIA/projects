@@ -169,6 +169,7 @@ export default function UpdateProfilePage() {
               _hover={{
                 bg: "red.500",
               }}
+              onClick={() => navigate("/")}
             >
               Cancel
             </Button>

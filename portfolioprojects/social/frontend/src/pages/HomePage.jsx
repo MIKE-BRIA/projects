@@ -3,11 +3,13 @@ import { Flex, Spinner } from "@chakra-ui/react";
 import useShowToast from "../hooks/useShowToast";
 import { useEffect, useState } from "react";
 import Post from "../components/Post";
+import { useRecoilState } from "recoil";
+import postsAtom from "../atoms/postsAtom";
 
 const HomePage = () => {
   const showToast = useShowToast();
   const [loading, setLoading] = useState(true);
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useRecoilState(postsAtom);
 
   useEffect(() => {
     const getFeedPosts = async () => {
@@ -26,7 +28,7 @@ const HomePage = () => {
     };
 
     getFeedPosts();
-  }, [showToast]);
+  }, [showToast, setPosts]);
   return (
     <>
       {loading && (
