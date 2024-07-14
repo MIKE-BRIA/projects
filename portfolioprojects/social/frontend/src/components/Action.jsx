@@ -16,13 +16,14 @@ import {
 import { useState } from "react";
 import { Text, Box } from "@chakra-ui/react";
 import useShowToast from "../hooks/useShowToast";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
+import postsAtom from "../atoms/postsAtom";
 
-const Action = ({ post: post_ }) => {
+const Action = ({ post }) => {
   const user = useRecoilValue(userAtom);
-  const [liked, setLiked] = useState(post_?.likes.includes(user?._id));
-  const [post, setPost] = useState(post_);
+  const [liked, setLiked] = useState(post?.likes.includes(user?._id));
+  const [posts, setPosts] = useRecoilState(postsAtom);
   const [reply, setReply] = useState("");
   const [isReplying, setIsReplying] = useState(false);
 
@@ -45,10 +46,23 @@ const Action = ({ post: post_ }) => {
 
       if (!liked) {
         //*add id of current user to the post.likes array
-        setPost({ ...post, likes: [...post.likes, user._id] });
+        const updatePosts = posts.map((p) => {
+          if (p._id === post._id) {
+            return { ...p, likes: [...p.likes, user._id] };
+          }
+          return p;
+        });
+        setPosts(updatePosts);
       } else {
         //*remove id of current user from the post.likes array
-        setPost({ ...post, likes: post.likes.filter((id) => id !== user._id) });
+        const updatePosts = posts.map((p) => {
+          if (p._id === post._id) {
+            return { ...p, likes: p.likes.filter((id) => id !== user._id) };
+          }
+
+          return p;
+        });
+        setPosts(updatePosts);
       }
 
       setLiked(!liked);
@@ -72,7 +86,15 @@ const Action = ({ post: post_ }) => {
 
       const data = await res.json();
       if (data.error) return showToast("Error", data.error, "error");
-      setPost({ ...post, replies: [...post.replies, data.reply] });
+
+      const updatePosts = posts.map((p) => {
+        if (p._id === post._id) {
+          return { ...p, replies: [...p.replies, data] };
+        }
+        return p;
+      });
+      setPosts(updatePosts);
+
       showToast("Success", "Reply posted successfully", "success");
       console.log(data);
       onClose();
