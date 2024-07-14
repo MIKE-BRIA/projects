@@ -33,7 +33,7 @@ export async function createPost(req, res) {
 
     const newPost = await Post.create({ postedBy, text, img });
 
-    res.status(201).json({ message: "Post created successfully", newPost });
+    res.status(201).json(newPost);
   } catch (err) {
     res.status(500).json({ error: err.message });
     console.log(err);
@@ -48,7 +48,7 @@ export async function getPost(req, res) {
 
     if (!post) return res.status(404).json({ error: "Post not found" });
 
-    res.status(200).json({ post });
+    res.status(200).json(post);
   } catch (err) {
     res.status(500).json({ error: err.message });
     console.log(err);
@@ -125,7 +125,7 @@ export async function replyToPost(req, res) {
     post.replies.push(reply);
     await post.save();
 
-    res.status(200).json({ message: "reply added successfully", post });
+    res.status(200).json(reply);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
