@@ -7,7 +7,7 @@ const Comments = ({ reply }) => {
   return (
     <>
       <Flex gap={4} py={2} my={2} w={"full"}>
-        <Avatar src={reply.profilePic} name={reply.username} size={"sm"} />
+        <Avatar src={reply.userProfilePic} name={reply.username} size={"sm"} />
         <Flex w={"full"} gap={1} flexDirection={"column"}>
           <Flex
             w={"full"}
