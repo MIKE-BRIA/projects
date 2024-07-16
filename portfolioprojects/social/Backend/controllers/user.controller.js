@@ -3,6 +3,7 @@ import brcypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/helpers/generateTokenAndSetCookie.js";
 import { v2 as cloudinary } from "cloudinary";
 import mongoose from "mongoose";
+import Post from "../models/postModel.js";
 
 //!Signup user
 export async function signupUser(req, res) {
@@ -158,6 +159,20 @@ export async function updateUser(req, res) {
     user.bio = bio || user.bio;
 
     user = await user.save();
+
+    //*find all post that this user replied to and update username and the userProfilePic fields
+    await Post.updateMany(
+      { "replies.userId": userId },
+      {
+        $set: {
+          "replies.$[reply].username": user.username,
+          "replies.$[reply].userProfilePic": user.profilePic,
+        },
+      },
+      {
+        arrayFilters: [{ "reply.userId": userId }],
+      }
+    );
 
     //*password should be null in response
     user.password = null;
