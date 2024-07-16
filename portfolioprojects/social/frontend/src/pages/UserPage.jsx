@@ -21,6 +21,7 @@ const UserPage = () => {
     //*Get the User Posts
     const getPosts = async () => {
       setFetchingPosts(true);
+      setPosts([]);
       try {
         const res = await fetch(`/api/posts/user/${username}`);
         const data = await res.json();
