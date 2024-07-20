@@ -23,7 +23,7 @@ const Conversation = ({ conversation }) => {
   );
   const colorMode = useColorMode();
 
-  console.log("selectedConversation", selectedConversation);
+  // console.log("selectedConversation", selectedConversation);
 
   return (
     <>
@@ -42,6 +42,7 @@ const Conversation = ({ conversation }) => {
             userId: user._id,
             userProfilePic: user.profilePic,
             username: user.username,
+            mock: conversation.mock,
           })
         }
         bg={
