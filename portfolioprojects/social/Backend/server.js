@@ -6,10 +6,11 @@ import userRoutes from "./routes/user.routes.js";
 import postRoutes from "./routes/post.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import { v2 as cloudinary } from "cloudinary";
+import { app, server } from "./socket/socket.js";
 
 dotenv.config();
 mongooseConnect();
-const app = express();
+// const app = express();
 
 //!connecting to cloudinary for image uploads
 cloudinary.config({
@@ -30,6 +31,6 @@ app.use("/api/messages", messageRoutes);
 
 let PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () =>
+server.listen(PORT, () =>
   console.log(`server started at http://localhost:${PORT}`)
 );
