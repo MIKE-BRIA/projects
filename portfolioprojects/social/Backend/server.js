@@ -7,10 +7,13 @@ import postRoutes from "./routes/post.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import { v2 as cloudinary } from "cloudinary";
 import { app, server } from "./socket/socket.js";
+import path from "path";
 
 dotenv.config();
 mongooseConnect();
 // const app = express();
+
+const __dirname = path.resolve();
 
 //!connecting to cloudinary for image uploads
 cloudinary.config({
@@ -29,7 +32,18 @@ app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/messages", messageRoutes);
 
+//*http://localhost:3000 => backend,frontend
+
 let PORT = process.env.PORT || 3000;
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+  //react app
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+  });
+}
 
 server.listen(PORT, () =>
   console.log(`server started at http://localhost:${PORT}`)
