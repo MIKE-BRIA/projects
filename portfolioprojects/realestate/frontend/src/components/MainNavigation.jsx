@@ -41,15 +41,16 @@ const Nav = () => {
               <h1>Boomuh</h1>
             </Link>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
             <input
               type="text"
               placeholder="Search by city of choice"
               name=""
               id=""
-              className="text-lg p-1 rounded-l-lg text-center border-none"
+              className="text-lg p-2 rounded-lg text-center border-0 border-gray-400 focus:border-blue-500"
             />
-            <button className="bg-red-300 h-full flex items-center p-1 w-10 rounded-r-lg">
+
+            <button className="bg-red-100 h-full flex items-center justify-center p-1 w-10 rounded-lg">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

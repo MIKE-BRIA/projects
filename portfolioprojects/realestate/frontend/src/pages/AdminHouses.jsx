@@ -36,7 +36,7 @@ export function AdminHouses({ swal }) {
       .then(async (result) => {
         const houseId = house._id;
         if (result.isConfirmed) {
-          await axios.delete(`http://localhost:3000/houses/${houseId}`);
+          await axios.delete(`api/admin/houses/${houseId}`);
 
           dispatch(fetchHouses());
         }

@@ -3,10 +3,12 @@ import {
   createAsyncThunk,
   createSelector,
 } from "@reduxjs/toolkit";
-import axios from "axios";
+// import axios from "axios";
 
 export const fetchHouses = createAsyncThunk("houses/fetchHouses", async () => {
-  const response = await axios.get("http://localhost:3000/houses");
+  const response = await fetch("http://localhost:3000/houses");
+
+  console.log("housesResponse", response.data);
 
   return response.data.houses;
 });

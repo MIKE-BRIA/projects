@@ -2,21 +2,21 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const fetchAgents = createAsyncThunk("agents/fetchAgents", async () => {
-  const response = await axios.get("http://localhost:3000/agents");
+  const response = await axios.get("api/agents");
   return response.data.agent;
 });
 
 export const addAgent = createAsyncThunk(
   "agents/addAgent",
   async (newAgent) => {
-    await axios.post("http://localhost:3000/agents", newAgent);
+    await axios.post("api/agents", newAgent);
   }
 );
 
 export const removeAgent = createAsyncThunk(
   "agents/removeAgent",
   async (agentId) => {
-    await axios.delete(`http://localhost:3000/agents/${agentId}`);
+    await axios.delete(`api/agents/${agentId}`);
   }
 );
 

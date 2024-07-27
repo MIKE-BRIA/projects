@@ -28,7 +28,7 @@ export default function Addhouse() {
   useEffect(() => {
     async function fetchHouseData() {
       try {
-        const response = await axios.get(`http://localhost:3000/houses/${id}`);
+        const response = await axios.get(`api/admin/houses/${id}`);
         const fetchedHouseData = response.data;
 
         // Set form data with fetched data
@@ -64,14 +64,14 @@ export default function Addhouse() {
 
     if (id) {
       try {
-        await axios.put(`http://localhost:3000/houses/${id}`, formData);
+        await axios.put(`api/admin/houses/${id}`, formData);
         navigate("/admin/houses");
       } catch (error) {
         console.error("There was an error updating the house listing!", error);
       }
     } else {
       try {
-        await axios.post("http://localhost:3000/houses", formData);
+        await axios.post("api/admin/houses", formData);
 
         navigate("/admin/houses");
       } catch (error) {
