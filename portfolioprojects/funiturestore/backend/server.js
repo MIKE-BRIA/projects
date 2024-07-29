@@ -3,6 +3,7 @@ import mongooseConnect from "./db/connectDB.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import UserRoutes from "./routes/user.routes.js";
+import ProductRoutes from "./routes/product.routes.js";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(cookieParser());
 
 //!Routes
 app.use("/api/users", UserRoutes);
+app.use("/api/products", ProductRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
