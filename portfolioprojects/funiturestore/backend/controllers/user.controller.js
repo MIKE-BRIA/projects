@@ -15,10 +15,15 @@ export async function signupUser(req, res) {
       return res.status(400).json({ error: "User already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    let isAdmin = false; // Default to false
+    if (email === "test@example.com") {
+      isAdmin = true;
+    }
 
     const newUser = await User.create({
       name: name,
       email: email,
+      isAdmin: isAdmin,
       password: hashedPassword,
     });
 
@@ -28,6 +33,7 @@ export async function signupUser(req, res) {
         _id: newUser._id,
         name: newUser.name,
         email: newUser.email,
+        isAdmin: newUser.isAdmin,
         profilepic: newUser.profilepic,
       });
     } else {
@@ -66,6 +72,7 @@ export async function loginUser(req, res) {
       name: user.name,
       email: user.email,
       profilePic: user.profilePic,
+      isAdmin: user.isAdmin,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
