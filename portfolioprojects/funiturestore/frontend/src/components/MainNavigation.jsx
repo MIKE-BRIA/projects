@@ -12,7 +12,7 @@ const MainNavigation = () => {
           <div>
             <Link to="/" className="flex gap-2">
               <img src="/vite.svg" alt="Furniro Logo" className="w-8 h-8" />
-              <h1>Furniro</h1>
+              <h1 className="text-black">Furniro</h1>
             </Link>
           </div>
           <div className="">
@@ -21,20 +21,21 @@ const MainNavigation = () => {
               <Link>Shop</Link>
               <Link>About</Link>
               <Link>Contact</Link>
+              <Link to="admin">Admin</Link>
             </nav>
           </div>
           <div className="space-x-6">
             <button>
-              <RiAccountPinCircleLine size={24} />
+              <RiAccountPinCircleLine size={24} color="black" />
             </button>
             <button>
-              <CiSearch size={24} />
+              <CiSearch size={24} color="black" />
             </button>
             <button>
-              <CiHeart size={24} />
+              <CiHeart size={24} color="black" />
             </button>
             <button>
-              <IoIosCart size={24} />
+              <IoIosCart size={24} color="black" />
             </button>
           </div>
         </section>
