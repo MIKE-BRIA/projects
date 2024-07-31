@@ -11,5 +11,9 @@ h1 {
 }
 
 .btn-primary {
-  @apply text-lg bg-blue-200 p-2 rounded-lg shadow-lg;
+  @apply text-lg bg-yellow-600 p-2 rounded-lg shadow-lg;
+}
+
+body {
+  @apply text-black;
 }
