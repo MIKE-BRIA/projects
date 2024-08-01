@@ -4,10 +4,11 @@ const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     category: { type: String, required: true },
-    productPic: { type: String, default: "" },
+    img: { type: String, default: "" },
     quantity: { type: Number, default: 0 },
     price: { type: Number, required: true },
     description: { type: String, required: true },
+    brand: { type: String },
   },
   {
     timestamps: true,
