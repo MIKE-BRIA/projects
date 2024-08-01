@@ -1,17 +1,70 @@
 import { useNavigate } from "react-router-dom";
 import InputArea from "./InputArea";
 import { FcAddImage } from "react-icons/fc";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import usePreviewImg from "../hooks/usePreviewImg";
+import useShowToast from "../hooks/useShowToast";
 
 const AddProduct = () => {
   const navigate = useNavigate();
   const imageRef = useRef();
+  const showToast = useShowToast();
   const { handleImageChange, imgUrl } = usePreviewImg();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    category: "",
+    brand: "",
+    img: "",
+    quantity: "",
+    price: "",
+  });
+
+  useEffect(() => {
+    setFormData((prevData) => ({ ...prevData, img: imgUrl || "" }));
+  }, [imgUrl]);
+
+  const handleAddImageClick = (e) => {
+    e.preventDefault(); // Prevent default form submission
+    imageRef.current.click();
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value || "",
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData);
+    try {
+      const res = await fetch("/api/products/addProduct", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (data.error) {
+        showToast("Error", data.error, "error");
+        return;
+      }
+
+      showToast("Post created successfully");
+      handleCancel();
+    } catch (error) {
+      showToast("Error", error, "error");
+    }
+  };
 
   function handleCancel() {
     navigate("/admin/products");
   }
+
   return (
     <>
       <section>
@@ -19,18 +72,24 @@ const AddProduct = () => {
         <div className="bg-slate-100 mt-4 rounded-lg">
           <div className="flex p-4 gap-6">
             <div className="flex-1">
-              <form action="">
+              <form onSubmit={handleSubmit}>
                 <InputArea
                   title={"Product Name"}
                   type={"text"}
+                  name="name"
+                  value={formData.name}
                   placeholder={"Type Product Name here"}
+                  onChange={handleChange}
                 />
                 <div className="flex flex-col mb-4">
                   <label className="mb-2 text-gray-700 font-semibold">
                     Description
                   </label>
                   <textarea
+                    name="description"
                     placeholder="Type description here"
+                    value={formData.description}
+                    onChange={handleChange}
                     className="px-4 py-2 bg-slate-50 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition-colors duration-200"
                   />
                 </div>
@@ -38,22 +97,30 @@ const AddProduct = () => {
                 <InputArea
                   title={"Category"}
                   type={"text"}
+                  name="category"
+                  value={formData.category}
                   placeholder={"Type Category here"}
+                  onChange={handleChange}
                 />
                 <InputArea
                   title={"Brand Name"}
                   type={"text"}
+                  name="brand"
+                  value={formData.brand}
                   placeholder={"Type brand name here"}
+                  onChange={handleChange}
                 />
                 <input
                   type="file"
                   hidden
                   ref={imageRef}
                   onChange={handleImageChange}
+                  accept="image/*" // Ensure only image files can be selected
                 />
+
                 <button
                   className="flex cursor-pointer gap-2 my-2 border border-1 border-blue-200 p-2 rounded-lg"
-                  onClick={() => imageRef.current.click()}
+                  onClick={handleAddImageClick} // Updated click handler
                 >
                   <FcAddImage size={24} />
                   <label htmlFor=""> Add Product Image</label>
@@ -62,14 +129,20 @@ const AddProduct = () => {
                   <InputArea
                     title={"Stock Quantity"}
                     type={"text"}
-                    placeholder={"Type brand name here"}
+                    name="quantity"
+                    value={formData.quantity}
+                    placeholder={"Type stock quantity here"}
                     className="flex-1"
+                    onChange={handleChange}
                   />
                   <InputArea
                     title={"Sale Price"}
                     type={"text"}
-                    placeholder={"Type brand name here"}
+                    name="price"
+                    value={formData.price}
+                    placeholder={"Type sale price here"}
                     className="flex-1"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="flex justify-end gap-4 mt-4">
@@ -95,6 +168,7 @@ const AddProduct = () => {
                   <img
                     src={imgUrl}
                     alt="Preview"
+                    value={formData.img}
                     className="max-w-full max-h-full"
                   />
                 ) : (
