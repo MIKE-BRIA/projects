@@ -1,21 +1,28 @@
 import Product from "../models/productModel.js";
 import mongoose from "mongoose";
+import { v2 as cloudinary } from "cloudinary";
 
 export async function addProduct(req, res) {
   try {
-    const { name, price, description, category, productPic, quantity } =
-      req.body;
+    const { name, price, description, category, quantity, brand } = req.body;
+    let { img } = req.body;
 
     if (!name || !price || !description || !category)
       return res.status(404).json({ error: "Enter all required fields" });
+
+    if (img) {
+      const uploadedResponse = await cloudinary.uploader.upload(img);
+      img = uploadedResponse.secure_url;
+    }
 
     const newProduct = await Product.create({
       name,
       price,
       description,
       category,
-      productPic,
+      img,
       quantity,
+      brand,
     });
 
     res.status(200).json(newProduct);
