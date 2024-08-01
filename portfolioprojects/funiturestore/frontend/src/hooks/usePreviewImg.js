@@ -1,4 +1,4 @@
-//!Hook that is for image previewing when one uploads a new image
+// //!Hook that is for image previewing when one uploads a new image
 
 import { useState } from "react";
 import useShowToast from "./useShowToast.js";
@@ -9,13 +9,13 @@ const usePreviewImg = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    console.log("Selected file:", file); // Debugging log
+    // console.log("Selected file:", file); // Debugging log
 
-    if (file && file.type.startsWith("image/")) {
+    if (file) {
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        console.log("FileReader result:", reader.result); // Debugging log
+        // console.log("FileReader result:", reader.result); // Debugging log
         setImgUrl(reader.result);
       };
 
@@ -23,14 +23,15 @@ const usePreviewImg = () => {
     } else {
       showToast(
         "Invalid file type",
-        "please select an image file type",
+        "Please select an image file type",
         "error"
       );
       setImgUrl(null);
     }
   };
 
-  console.log(imgUrl);
+  // console.log(imgUrl); // Debugging log
+
   return { handleImageChange, imgUrl, setImgUrl };
 };
 
