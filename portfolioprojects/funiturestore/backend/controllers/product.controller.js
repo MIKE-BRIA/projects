@@ -25,10 +25,22 @@ export async function addProduct(req, res) {
       brand,
     });
 
-    res.status(200).json(newProduct);
+    res
+      .status(200)
+      .json({ message: "Product added successfully", product: newProduct });
   } catch (error) {
     res.status(500).json({ error: error.message });
     console.log("Error in addProduct: ", error.message);
+  }
+}
+
+export async function getProducts(req, res) {
+  try {
+    const products = await Product.find({});
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.log("Error in getProducts: ", error.message);
   }
 }
 
