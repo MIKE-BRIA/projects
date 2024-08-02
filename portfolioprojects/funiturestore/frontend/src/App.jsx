@@ -24,6 +24,7 @@ const router = createBrowserRouter([
           { path: "dashboard", element: <AdminDashboard /> },
           { path: "products", element: <AdminProducts /> },
           { path: "products/add", element: <AddProduct /> },
+          { path: "products/edit/:id", element: <AddProduct /> },
           { path: "orders", element: <AdminOrders /> },
         ],
       },
