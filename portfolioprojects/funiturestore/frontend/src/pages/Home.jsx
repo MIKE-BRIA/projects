@@ -1,7 +1,15 @@
 import { Link } from "react-router-dom";
 import RangeCard from "../components/RangeCard";
+import useGetProducts from "../hooks/useGetProduct";
+import ProductCard from "../components/productCard";
 
 const Home = () => {
+  const { products, loading, error } = useGetProducts(
+    "/api/products/getProducts"
+  );
+
+  const displayedProducts = products.slice(0, 8);
+
   return (
     <>
       <div className="relative">
@@ -42,7 +50,27 @@ const Home = () => {
           <h1 className="text-center my-6 text-black">Our Products</h1>
         </div>
       </div>
-      <p className="text-black">Home</p>
+      {/* //map some products here */}
+      {/* <p className="text-black">Home</p> */}
+      <div>
+        {loading && (
+          <p className="text-center text-black">Loading products...</p>
+        )}
+        {error && <p className="text-center text-red-500">Error: {error}</p>}
+        {!loading && !error && (
+          <div className="grid grid-cols-4 gap-4 mx-4">
+            {displayedProducts.map((product) => (
+              <ProductCard
+                key={product._id}
+                img={product.img}
+                name={product.name}
+                brand={product.brand}
+                price={product.price}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </>
   );
 };

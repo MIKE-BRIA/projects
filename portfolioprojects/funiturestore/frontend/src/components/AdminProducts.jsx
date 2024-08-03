@@ -1,27 +1,68 @@
 import { Link } from "react-router-dom";
 import { IoMdAddCircle } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast.js";
+import { withSwal } from "react-sweetalert2";
 
-const AdminProducts = () => {
+export function AdminProducts({ swal }) {
   const showToast = useShowToast();
   const [products, setProducts] = useState([]);
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const res = await fetch("/api/products/getProducts");
-        if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-        const data = await res.json();
-        console.log(data);
-        setProducts(data.reverse());
-      } catch (error) {
-        showToast("Error", "cannot retrieve products", "error");
-      }
+
+  const fetchProducts = useCallback(async () => {
+    try {
+      const res = await fetch("/api/products/getProducts");
+
+      const data = await res.json();
+
+      console.log(data);
+      setProducts(data.reverse());
+    } catch (error) {
+      showToast("Error", "Cannot retrieve products", "error");
     }
-    fetchProducts();
   }, [showToast]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  // Function to delete a product and reload the product list
+  async function deleteProduct(ProductId) {
+    try {
+      const res = await fetch(`/api/products/removeProduct/${ProductId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+      fetchProducts();
+
+      showToast("Success", "Product deleted successfully", "success");
+    } catch (error) {
+      showToast("Error", "Cannot delete product", "error");
+    }
+  }
+
+  // Deleting House
+  function deleteHouse(product) {
+    swal
+      .fire({
+        title: "Delete Product",
+        html: `<p>Are you sure you want to delete <strong>${product.name.toUpperCase()}</strong>?</p>`,
+        showCancelButton: true,
+        cancelButtonText: "Cancel",
+        confirmButtonText: "Yes, Delete",
+        confirmButtonColor: "#d55",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          deleteProduct(product._id); // Call the deleteProduct function
+        }
+      });
+  }
   return (
     <>
       <div>
@@ -83,7 +124,7 @@ const AdminProducts = () => {
                     </Link>
                     <button
                       className=" btn-cancel"
-                      // onClick={() => deleteHouse(house)}
+                      onClick={() => deleteHouse(product)}
                     >
                       delete
                     </button>
@@ -96,6 +137,10 @@ const AdminProducts = () => {
       </div>
     </>
   );
-};
+}
 
-export default AdminProducts;
+const AdminProductsWithSwal = withSwal(({ swal }) => {
+  return <AdminProducts swal={swal} />;
+});
+
+export default AdminProductsWithSwal;

@@ -35,7 +35,7 @@ table.basic a {
 }
 
 .btn-cancel {
-  @apply bg-red-200 p-1 rounded-md;
+  @apply bg-red-200 p-1 rounded-md cursor-pointer;
 }
 
 .product-image {
