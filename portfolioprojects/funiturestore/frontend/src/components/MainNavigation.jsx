@@ -18,7 +18,7 @@ const MainNavigation = () => {
           <div className="">
             <nav className="space-x-16 text-black text-lg">
               <Link to="/">Home</Link>
-              <Link>Shop</Link>
+              <Link to="shop">Shop</Link>
               <Link>About</Link>
               <Link>Contact</Link>
               <Link to="admin">Admin</Link>
