@@ -8,6 +8,7 @@ import AdminProducts from "./components/AdminProducts";
 import AdminDashboard from "./components/AdminDashboard";
 import AdminOrders from "./components/AdminOrders";
 import AddProduct from "./components/AddProduct";
+import Shop from "./pages/Shop";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "signup", element: <Signup /> },
       { path: "login", element: <Login /> },
+      { path: "shop", element: <Shop /> },
       {
         path: "admin",
         element: <Admin />,
