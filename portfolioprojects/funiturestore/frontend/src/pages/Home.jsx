@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import RangeCard from "../components/RangeCard";
 import useGetProducts from "../hooks/useGetProduct";
 import ProductCard from "../components/productCard";
+import { ClipLoader } from "react-spinners";
 
 const Home = () => {
   const { products, loading, error } = useGetProducts(
@@ -50,11 +51,12 @@ const Home = () => {
           <h1 className="text-center my-6 text-black">Our Products</h1>
         </div>
       </div>
-      {/* //map some products here */}
-      {/* <p className="text-black">Home</p> */}
+
       <div>
         {loading && (
-          <p className="text-center text-black">Loading products...</p>
+          <div className="flex justify-center items-center h-96">
+            <ClipLoader color="#000" loading={true} size={50} />
+          </div>
         )}
         {error && <p className="text-center text-red-500">Error: {error}</p>}
         {!loading && !error && (
@@ -70,6 +72,14 @@ const Home = () => {
             ))}
           </div>
         )}
+        <h2 className="text-center my-8">
+          <Link
+            to="shop"
+            className=" border border-1 border-blue-300 py-3 px-7 rounded-lg"
+          >
+            show more
+          </Link>
+        </h2>
       </div>
     </>
   );
