@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import RangeCard from "../components/RangeCard";
 import useGetProducts from "../hooks/useGetProduct";
+// import ProductCard from "../components/productCard";
 import ProductCard from "../components/productCard";
 import { ClipLoader } from "react-spinners";
 
@@ -40,10 +41,18 @@ const Home = () => {
           </p>
         </div>
         <div className="flex gap-2 mx-14">
-          <RangeCard source={"images/dining.jpg"} title={"Dining"} />
-          <RangeCard source={"images/living.jpg"} title={"Living"} />
-          <RangeCard source={"images/bedroom.jpg"} title={"Bedroom"} />
-          <RangeCard source={"images/kitchen.jpg"} title={"Kitchen"} />
+          <Link to={`shop/dining`} className="flex-1">
+            <RangeCard source={"images/dining.jpg"} title={"Dining"} />
+          </Link>
+          <Link to="shop/living" className="flex-1">
+            <RangeCard source={"images/living.jpg"} title={"Living"} />
+          </Link>
+          <Link to="shop/bedroom" className="flex-1">
+            <RangeCard source={"images/bedroom.jpg"} title={"Bedroom"} />
+          </Link>
+          <Link to="shop/kitchen" className="flex-1">
+            <RangeCard source={"images/kitchen.jpg"} title={"Kitchen"} />
+          </Link>
         </div>
       </div>
       <div>

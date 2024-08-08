@@ -9,6 +9,8 @@ import AdminDashboard from "./components/AdminDashboard";
 import AdminOrders from "./components/AdminOrders";
 import AddProduct from "./components/AddProduct";
 import Shop from "./pages/Shop";
+import ProductPage from "./components/ProductPage";
+import ProductCategory from "./components/ProductCategory";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,9 @@ const router = createBrowserRouter([
       { path: "signup", element: <Signup /> },
       { path: "login", element: <Login /> },
       { path: "shop", element: <Shop /> },
+      { path: "shop/:category", element: <ProductCategory /> },
+      { path: "shop/:category/:id", element: <ProductPage /> },
+
       {
         path: "admin",
         element: <Admin />,
