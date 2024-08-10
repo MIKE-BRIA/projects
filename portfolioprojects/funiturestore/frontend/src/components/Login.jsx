@@ -30,14 +30,14 @@ const Login = () => {
       const data = await res.json();
       if (data.error) return showToast("Error", data.error, "error");
 
-      console.log(data);
       localStorage.setItem("user-threads", JSON.stringify(data));
+      navigate("/");
+      window.location.reload();
       // setUser(data);
     } catch (error) {
       showToast("Error", error, "error");
     }
     console.log("Form data submitted:", formData);
-    navigate("/");
   };
 
   return (
