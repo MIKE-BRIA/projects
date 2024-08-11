@@ -166,16 +166,8 @@ const MainNavigation = () => {
           <button onClick={handleAccountClick}>
             <RiAccountPinCircleLine size={24} color="black" />
           </button>
-          <button onClick={toggleSearch}>
-            <CiSearch size={24} color="black" />
-          </button>
-          <button>
-            <CiHeart size={24} color="black" />
-          </button>
-          <button>
-            <IoIosCart size={24} color="black" />
-          </button>
-          {showSearch && (
+
+          {showSearch ? (
             <form
               onSubmit={handleSearchSubmit}
               className="ml-4 flex items-center"
@@ -186,13 +178,23 @@ const MainNavigation = () => {
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 ref={searchInputRef}
-                className="p-2 border border-gray-300 rounded"
+                className="p-2 w-64 border border-gray-300 rounded"
               />
               <button type="submit" className="hidden">
                 Submit
               </button>
             </form>
+          ) : (
+            <button onClick={toggleSearch}>
+              <CiSearch size={24} color="black" />
+            </button>
           )}
+          <button>
+            <CiHeart size={24} color="black" />
+          </button>
+          <button>
+            <IoIosCart size={24} color="black" />
+          </button>
         </div>
       </section>
     </main>

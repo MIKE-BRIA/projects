@@ -5,22 +5,28 @@ import { HiOutlineClipboardList } from "react-icons/hi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { CiSettings } from "react-icons/ci";
 import OverView from "./OverView";
+import UserSettings from "./UserSettings";
+import useUserDetails from "../hooks/useUserDetails";
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const { userDetails } = useUserDetails();
 
   return (
     <div className="container mx-auto p-6">
       {/* Header Section */}
       <div className="flex items-center gap-4 mb-6">
         <img
-          src="images/dining.jpg"
+          src={userDetails?.img || "images/dining.jpg"}
           alt="Profile"
           className="w-24 h-24 rounded-full border-2 object-cover border-gray-300"
         />
         <div>
-          <h1 className="text-3xl font-semibold">John Doe</h1>
-          <button className="mt-2 flex items-center text-blue-500">
+          <h1 className="text-3xl font-semibold">{userDetails?.name}</h1>
+          <button
+            className="mt-2 flex items-center text-blue-500"
+            onClick={() => setActiveTab("settings")}
+          >
             <FaUserEdit className="mr-1" /> Edit Profile
           </button>
         </div>
@@ -75,16 +81,7 @@ const UserProfile = () => {
         {activeTab === "overview" && (
           <div>
             <h2 className="text-2xl font-semibold mb-4">Account Overview</h2>
-            <p className="mb-2">
-              <strong>Email:</strong> john.doe@example.com
-            </p>
-            <p className="mb-2">
-              <strong>Address:</strong> 1234 Elm Street, Springfield
-            </p>
-            <p className="mb-2">
-              <strong>Contact Number:</strong> (123) 456-7890
-            </p>
-            <OverView />
+            <OverView setActiveTab={setActiveTab} />
           </div>
         )}
 
@@ -147,34 +144,7 @@ const UserProfile = () => {
         {activeTab === "settings" && (
           <div>
             <h2 className="text-2xl font-semibold mb-4">Settings</h2>
-            <form>
-              <div className="mb-4">
-                <label className="block mb-1">
-                  <strong>Change Email:</strong>
-                </label>
-                <input
-                  type="email"
-                  defaultValue="john.doe@example.com"
-                  className="p-2 border border-gray-300 rounded w-full"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-1">
-                  <strong>Change Password:</strong>
-                </label>
-                <input
-                  type="password"
-                  placeholder="New Password"
-                  className="p-2 border border-gray-300 rounded w-full"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-blue-500 text-white p-2 rounded"
-              >
-                Save Changes
-              </button>
-            </form>
+            <UserSettings setActiveTab={setActiveTab} />
           </div>
         )}
       </div>
