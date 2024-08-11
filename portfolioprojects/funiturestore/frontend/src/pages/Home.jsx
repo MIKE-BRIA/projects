@@ -71,13 +71,17 @@ const Home = () => {
         {!loading && !error && (
           <div className="grid grid-cols-4 gap-4 mx-4">
             {displayedProducts.map((product) => (
-              <ProductCard
+              <Link
                 key={product._id}
-                img={product.img}
-                name={product.name}
-                brand={product.brand}
-                price={product.price}
-              />
+                to={`/shop/${product.category}/${product._id}`}
+              >
+                <ProductCard
+                  img={product.img}
+                  name={product.name}
+                  brand={product.brand}
+                  price={product.price}
+                />
+              </Link>
             ))}
           </div>
         )}
