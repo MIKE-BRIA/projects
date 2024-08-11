@@ -141,3 +141,24 @@ export async function updateProduct(req, res) {
     console.log("Error in updateProduct", error.message);
   }
 }
+
+export async function getByCategory(req, res) {
+  try {
+    const { category } = req.params;
+
+    if (!category)
+      return res.status(404).json({ error: "Product category not provided" });
+
+    const products = await Product.find({ category });
+
+    if (products.length === 0)
+      return res
+        .status(404)
+        .json({ error: "No Products found in this category" });
+
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.log("Error in getByCategory:", error.message);
+  }
+}
