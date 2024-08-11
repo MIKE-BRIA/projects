@@ -11,6 +11,7 @@ import AddProduct from "./components/AddProduct";
 import Shop from "./pages/Shop";
 import ProductPage from "./components/ProductPage";
 import ProductCategory from "./components/ProductCategory";
+import Profile from "./pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: "signup", element: <Signup /> },
       { path: "login", element: <Login /> },
       { path: "shop", element: <Shop /> },
+      { path: "profile", element: <Profile /> },
       { path: "shop/:category", element: <ProductCategory /> },
       { path: "shop/:category/:id", element: <ProductPage /> },
 
