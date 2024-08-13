@@ -24,7 +24,7 @@ const useUserDetails = () => {
           throw new Error("Failed to fetch user details");
         }
         const data = await res.json();
-        console.log("userdetails", data);
+        // console.log("userdetails", data);
         setUserDetails(data);
       } catch (err) {
         setError(err.message || "An error occurred");
