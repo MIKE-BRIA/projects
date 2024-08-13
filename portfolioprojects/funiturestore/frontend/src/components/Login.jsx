@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useShowToast from "../hooks/useShowToast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -88,6 +88,13 @@ const Login = () => {
         >
           Login
         </button>
+        <div>
+          <Link to="/signup">
+            <p className="text-center mt-3 text-lg text-blue-300">
+              signup instead
+            </p>
+          </Link>
+        </div>
       </form>
     </div>
   );
