@@ -16,6 +16,8 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import Cart from "./pages/Cart";
 import PaymentSuccess from "./components/PaymentSucess";
+import NotAuthorized from "./components/NotAuthorized";
+import ProtectedRoute from "./hooks/useProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -29,18 +31,25 @@ const router = createBrowserRouter([
       { path: "profile", element: <Profile /> },
       { path: "cart", element: <Cart /> },
       { path: "payment-success", element: <PaymentSuccess /> },
+      { path: "not-authorized", element: <NotAuthorized /> },
       { path: "shop/:category", element: <ProductCategory /> },
       { path: "shop/:category/:id", element: <ProductPage /> },
 
       {
         path: "admin",
-        element: <Admin />,
+        element: <ProtectedRoute />,
         children: [
-          { path: "dashboard", element: <AdminDashboard /> },
-          { path: "products", element: <AdminProducts /> },
-          { path: "products/add", element: <AddProduct /> },
-          { path: "products/edit/:id", element: <AddProduct /> },
-          { path: "orders", element: <AdminOrders /> },
+          {
+            path: "",
+            element: <Admin />,
+            children: [
+              { path: "dashboard", element: <AdminDashboard /> },
+              { path: "products", element: <AdminProducts /> },
+              { path: "products/add", element: <AddProduct /> },
+              { path: "products/edit/:id", element: <AddProduct /> },
+              { path: "orders", element: <AdminOrders /> },
+            ],
+          },
         ],
       },
     ],
