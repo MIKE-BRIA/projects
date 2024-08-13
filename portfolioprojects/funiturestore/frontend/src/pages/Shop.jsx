@@ -26,6 +26,7 @@ const Shop = () => {
           alt="dining table image"
           className="h-52 w-full object-cover opacity-40"
         />
+
         <p className="absolute font-bold inset-0 flex items-center justify-center text-2xl text-black">
           Shop with us
         </p>
