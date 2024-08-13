@@ -192,9 +192,11 @@ const MainNavigation = () => {
           <button>
             <CiHeart size={24} color="black" />
           </button>
-          <button>
-            <IoIosCart size={24} color="black" />
-          </button>
+          <Link to="/cart">
+            <button>
+              <IoIosCart size={24} color="black" />
+            </button>
+          </Link>
         </div>
       </section>
     </main>

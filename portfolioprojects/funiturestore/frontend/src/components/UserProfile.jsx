@@ -17,7 +17,7 @@ const UserProfile = () => {
       {/* Header Section */}
       <div className="flex items-center gap-4 mb-6">
         <img
-          src={userDetails?.img || "images/dining.jpg"}
+          src={userDetails?.profilePic || "images/dining.jpg"}
           alt="Profile"
           className="w-24 h-24 rounded-full border-2 object-cover border-gray-300"
         />

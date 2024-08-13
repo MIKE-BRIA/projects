@@ -4,15 +4,27 @@ import useGetProductById from "../hooks/useGetProductByID";
 import useGetProducts from "../hooks/useGetProduct";
 import { Link } from "react-router-dom";
 import ProductCard from "./productCard";
+import { useDispatch, useSelector } from "react-redux";
+import { addItemToCart } from "../store/slices/cartSlice";
+import { useEffect } from "react";
+import useShowToast from "../hooks/useShowToast";
 
 const ProductPage = () => {
   const { category, id } = useParams();
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const showToast = useShowToast();
+
   const { product, loading, error } = useGetProductById(
     `/api/products/getProduct/${id}`
   );
   const { products, loading: loaded } = useGetProducts(
     `/api/products/getProducts/category/${category}`
   );
+
+  useEffect(() => {
+    console.log(cartItems);
+  }, [cartItems]);
 
   if (loading) {
     return (
@@ -36,6 +48,18 @@ const ProductPage = () => {
   }).format(product.price);
 
   const displayedProducts = products.slice(0, 8);
+
+  const handleAddToCart = () => {
+    dispatch(
+      addItemToCart({
+        id: product._id,
+        name: product.name,
+        price: product.price,
+        img: product.img,
+      })
+    );
+    showToast("Item added to cart successfully");
+  };
 
   return (
     <div>
@@ -64,7 +88,10 @@ const ProductPage = () => {
             <button className="mt-4 flex-1 bg-blue-400 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
               Add to favourite
             </button>
-            <button className="mt-4 flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
+            <button
+              onClick={handleAddToCart}
+              className="mt-4 flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+            >
               Add to Cart
             </button>
           </div>
