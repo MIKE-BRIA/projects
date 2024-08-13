@@ -12,6 +12,10 @@ import Shop from "./pages/Shop";
 import ProductPage from "./components/ProductPage";
 import ProductCategory from "./components/ProductCategory";
 import Profile from "./pages/Profile";
+import { Provider } from "react-redux";
+import store from "./store/store";
+import Cart from "./pages/Cart";
+import PaymentSuccess from "./components/PaymentSucess";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +27,8 @@ const router = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "shop", element: <Shop /> },
       { path: "profile", element: <Profile /> },
+      { path: "cart", element: <Cart /> },
+      { path: "payment-success", element: <PaymentSuccess /> },
       { path: "shop/:category", element: <ProductCategory /> },
       { path: "shop/:category/:id", element: <ProductPage /> },
 
@@ -42,7 +48,11 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
 };
 
 export default App;
