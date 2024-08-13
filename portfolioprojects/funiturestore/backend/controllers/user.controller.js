@@ -91,7 +91,7 @@ export async function getUserProfile(req, res) {
 
     // const user = await User.findOne({ _id: id });
     const user = await User.findById(id).select(
-      "-password -updatedAt -createdAt"
+      "-password -updatedAt -createdAt "
     );
 
     if (!user) return res.status(400).json({ error: "User not found" });
@@ -113,66 +113,6 @@ export async function logoutUser(req, res) {
   }
 }
 
-// export async function updateUserProfile(req, res) {
-//   try {
-//     const { email, name, residence, number } = req.body;
-//     let { profilePic } = req.body;
-//     const { id } = req.params;
-
-//     if (!email || !name || !residence) {
-//       res.status(400).json({ error: "Please enter missing input fields" });
-//     }
-
-//     const existingUser = await User.findById(id);
-
-//     if (!existingUser) {
-//       return res.status(400).json({ error: "User not found" });
-//     }
-
-//     const emailInUse = await User.findOne({ email, _id: { $ne: id } });
-//     if (emailInUse) {
-//       return res
-//         .status(400)
-//         .json({ error: "Email is already in use by another user" });
-//     }
-
-//     if (!existingUser.profilePic && profilePic) {
-//       const uploadedResponse = await cloudinary.uploader.upload(profilePic);
-//       profilePic = uploadedResponse.secure_url;
-//     } else if (profilePic && profilePic !== existingUser.profilePic) {
-//       const oldImageUrl = existingUser.profilePic;
-//       const oldImagePublicId = oldImageUrl.split("/").pop().split(".")[0];
-
-//       await cloudinary.uploader.destroy(oldImagePublicId);
-
-//       const uploadedResponse = await cloudinary.uploader.upload(profilePic);
-//       profilePic = uploadedResponse.secure_url;
-//     } else {
-//       profilePic = existingUser.profilePic;
-//     }
-
-//     const updatedUser = await User.findByIdAndUpdate(
-//       id,
-//       {
-//         email,
-//         name,
-//         residence,
-//         number,
-//         profilePic,
-//       },
-//       { new: true }
-//     );
-
-//     if (!updatedUser) {
-//       return res.status(404).json({ error: "User not found " });
-//     }
-
-//     res.status(200).json(updatedUser);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//     console.log("Error in UpdateUserProfile: ", error.message);
-//   }
-// }
 export async function updateUserProfile(req, res) {
   try {
     const { email, name, residence, number } = req.body;
