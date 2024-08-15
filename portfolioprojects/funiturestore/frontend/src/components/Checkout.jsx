@@ -1,40 +1,23 @@
-// import { useSelector } from "react-redux";
-
-// const Checkout = () => {
-//   const totalPrice = useSelector((state) => state.cart.totalAmount);
-//   const formattedPrice = new Intl.NumberFormat("en-US", {
-//     style: "currency",
-//     currency: "EUR",
-//   }).format(totalPrice);
-//   return (
-//     <div className="bg-yellow-100 p-4 rounded-md">
-//       <h2>CART SUMMARY</h2>
-//       <div className="flex justify-between my-4">
-//         <p>Subtotal</p>
-//         <p>{formattedPrice}</p>
-//       </div>
-//       <div className="flex items-center justify-center">
-//         <button className=" bg-yellow-300 w-full p-2 rounded-lg">
-//           CHECKOUT<span></span>({formattedPrice})
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Checkout;
-
 import { useSelector } from "react-redux";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import useUserDetails from "../hooks/useUserDetails";
 
 const Checkout = () => {
   const totalPrice = useSelector((state) => state.cart.totalAmount);
+  const selectedProducts = useSelector((state) => state.cart.cartItems);
+  const { userDetails } = useUserDetails();
   const formattedPrice = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "EUR",
   }).format(totalPrice);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("products", selectedProducts);
+    console.log("userdetails", userDetails);
+  });
 
   const initialOptions = {
     "client-id":
@@ -83,8 +66,20 @@ const Checkout = () => {
                   const transactionId = details.id;
                   const amount = details.purchase_units[0].amount.value;
 
-                  navigate("/payment-success", {
-                    state: { payerName, transactionId, amount: `€${amount}` },
+                  fetch("/api/purchases/added", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      payerName,
+                      transactionId,
+                      amount,
+                      products: selectedProducts,
+                      userId: userDetails?._id,
+                    }),
+                  }).then(() => {
+                    navigate("/payment-success", {
+                      state: { payerName, transactionId, amount: `€${amount}` },
+                    });
                   });
                 });
               }}
