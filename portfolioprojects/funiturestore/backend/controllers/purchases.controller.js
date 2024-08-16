@@ -1,80 +1,67 @@
-// import Purchase from "../models/PurchaseModel.js";
-
-// export async function addPurchase(req, res) {
-//   try {
-//     const { payerName, transactionId, amount, products } = req.body;
-
-//     if (!payerName || !products || !amount)
-//       return res
-//         .status(404)
-//         .json({ error: "all required entries are required" });
-
-//     const newPurchase = await Purchase.create({
-//       products: {
-//         productId: products.id,
-//         name: products.name,
-//         quantity: products.quantity,
-//         price: products.price,
-//       },
-//       totalAmount: amount,
-//       paymentMethod: transactionId,
-//     });
-
-//     res
-//       .status(200)
-//       .json({ message: "Purchase done successfully", purchase: newPurchase });
-//   } catch (error) {
-//     console.log("Error in addPurchase: ", error.message);
-//     return res.status(500).json({ error: error.message });
-//   }
-// }
 import Purchase from "../models/PurchaseModel.js";
+import mongoose from "mongoose";
 
 export async function addPurchase(req, res) {
   try {
     const { payerName, transactionId, amount, products, userId } = req.body;
 
-    const convertedUserId = mongoose.Types.ObjectId(userId);
-
-    if (!payerName || !products || !amount)
+    if (!payerName || !products || !amount || !userId) {
       return res
-        .status(404)
-        .json({ error: "all required entries are required" });
+        .status(400)
+        .json({ error: "All required fields must be provided." });
+    }
 
-    console.log(products);
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ error: "Invalid user ID." });
+    }
 
-    if (!Array.isArray(products) || products.length === 0)
-      return res.status(404).json({ error: "products array is required" });
+    if (!Array.isArray(products) || products.length === 0) {
+      return res.status(400).json({
+        error: "Products array must be provided and cannot be empty.",
+      });
+    }
 
-    const productsArray = products.map((product) => {
-      if (!product.id || !product.name || !product.quantity || !product.price)
-        return res
-          .status(404)
-          .json({ error: "all product entries are required" });
+    const invalidProducts = products.filter(
+      (product) =>
+        !product.id || !product.name || !product.quantity || !product.price
+    );
 
-      return {
-        user: convertedUserId,
-        productId: product.id,
-        name: product.name,
-        quantity: product.quantity,
-        price: product.price,
-      };
-    });
+    if (invalidProducts.length > 0) {
+      return res.status(400).json({
+        error: "Each product must have id, name, quantity, and price.",
+      });
+    }
 
-    if (productsArray.length === 0)
-      return res.status(404).json({ error: "products array is required" });
+    const productsArray = products.map((product) => ({
+      productId: product.id,
+      name: product.name,
+      quantity: product.quantity,
+      price: product.price,
+    }));
 
     const newPurchase = await Purchase.create({
+      user: new mongoose.Types.ObjectId(userId),
       products: productsArray,
       totalAmount: amount,
       paymentMethod: transactionId,
     });
 
-    res
-      .status(200)
-      .json({ message: "Purchase done successfully", purchase: newPurchase });
+    res.status(200).json({
+      message: "Purchase completed successfully",
+      purchase: newPurchase,
+    });
   } catch (error) {
-    console.log("Error in addPurchase: ", error.message);
-    return res.status(500).json({ error: error.message });
+    console.error("Error in addPurchase:", error); // Log the full error stack
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+export async function getAllPurchase(req, res) {
+  try {
+    const purchases = await Purchase.find({});
+    res.status(200).json(purchases);
+  } catch (error) {
+    console.log("Error in getAllPurchase", error.message);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
