@@ -18,6 +18,7 @@ import Cart from "./pages/Cart";
 import PaymentSuccess from "./components/PaymentSucess";
 import NotAuthorized from "./components/NotAuthorized";
 import ProtectedRoute from "./hooks/useProtectedRoute";
+import PurchasedItem from "./components/PurchasedItem";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
               { path: "products/add", element: <AddProduct /> },
               { path: "products/edit/:id", element: <AddProduct /> },
               { path: "orders", element: <AdminOrders /> },
+              { path: "orders/:id", element: <PurchasedItem /> },
             ],
           },
         ],
