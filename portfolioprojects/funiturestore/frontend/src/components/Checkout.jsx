@@ -1,23 +1,22 @@
 import { useSelector } from "react-redux";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import useUserDetails from "../hooks/useUserDetails";
+import { ClipLoader } from "react-spinners";
+import { clearCart } from "../store/slices/cartSlice";
+import { useDispatch } from "react-redux";
 
 const Checkout = () => {
   const totalPrice = useSelector((state) => state.cart.totalAmount);
   const selectedProducts = useSelector((state) => state.cart.cartItems);
-  const { userDetails } = useUserDetails();
+  const { userDetails, loading, error } = useUserDetails();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const formattedPrice = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "EUR",
   }).format(totalPrice);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log("products", selectedProducts);
-    console.log("userdetails", userDetails);
-  });
 
   const initialOptions = {
     "client-id":
@@ -25,6 +24,22 @@ const Checkout = () => {
     currency: "EUR",
     intent: "capture",
   };
+
+  if (loading) {
+    return (
+      <div>
+        <ClipLoader color="#000" loading={true} size={50} />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!userDetails) {
+    return <div>No user details found. Please log in again.</div>;
+  }
 
   return (
     <PayPalScriptProvider options={initialOptions}>
@@ -74,12 +89,14 @@ const Checkout = () => {
                       transactionId,
                       amount,
                       products: selectedProducts,
-                      userId: userDetails?._id,
+                      userId: userDetails._id,
                     }),
-                  }).then(() => {
-                    navigate("/payment-success", {
-                      state: { payerName, transactionId, amount: `€${amount}` },
-                    });
+                  });
+
+                  dispatch(clearCart());
+
+                  navigate("/payment-success", {
+                    state: { payerName, transactionId, amount: `€${amount}` },
                   });
                 });
               }}
