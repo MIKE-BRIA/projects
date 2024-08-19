@@ -37,6 +37,7 @@ export async function addPurchase(req, res) {
       name: product.name,
       quantity: product.quantity,
       price: product.price,
+      productImg: product.img,
     }));
 
     const newPurchase = await Purchase.create({
@@ -62,6 +63,32 @@ export async function getAllPurchase(req, res) {
     res.status(200).json(purchases);
   } catch (error) {
     console.log("Error in getAllPurchase", error.message);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+export async function updatePurchases(req, res) {
+  const { purchaseId } = req.params;
+  const { orderStatus } = req.body;
+  try {
+    const validStatuses = ["pending", "shipped", "delivered", "canceled"];
+    if (!validStatuses.includes(orderStatus)) {
+      return res.status(400).json({ error: "Invalid order status" });
+    }
+
+    const updatedPurchase = await Purchase.findByIdAndUpdate(
+      purchaseId,
+      { $set: { orderStatus } },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedPurchase) {
+      return res.status(404).json({ error: "Purchase not found" });
+    }
+
+    res.status(200).json(updatedPurchase);
+  } catch (error) {
+    console.log("Error in updatePurchases", error.message);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
