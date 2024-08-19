@@ -44,6 +44,12 @@ table.basic a {
   object-fit: cover;
 }
 
+.user-imgorder {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+
 .scrollable-div {
   max-height: 1000px; /* Adjust the height as needed */
   overflow-y: auto;
