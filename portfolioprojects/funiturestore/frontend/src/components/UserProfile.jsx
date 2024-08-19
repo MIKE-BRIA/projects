@@ -7,6 +7,7 @@ import { CiSettings } from "react-icons/ci";
 import OverView from "./OverView";
 import UserSettings from "./UserSettings";
 import useUserDetails from "../hooks/useUserDetails";
+import UserOrders from "./UserOrders";
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -88,29 +89,9 @@ const UserProfile = () => {
         {activeTab === "orders" && (
           <div>
             <h2 className="text-2xl font-semibold mb-4">Recent Orders</h2>
-            <div className="border p-4 mb-4 rounded">
-              <h3 className="text-xl font-semibold">Order #12345</h3>
-              <p>
-                <strong>Date:</strong> August 1, 2024
-              </p>
-              <p>
-                <strong>Status:</strong> Shipped
-              </p>
-              <p>
-                <strong>Total:</strong> $120.00
-              </p>
-            </div>
-            <div className="border p-4 mb-4 rounded">
-              <h3 className="text-xl font-semibold">Order #12346</h3>
-              <p>
-                <strong>Date:</strong> August 3, 2024
-              </p>
-              <p>
-                <strong>Status:</strong> Delivered
-              </p>
-              <p>
-                <strong>Total:</strong> $75.00
-              </p>
+
+            <div>
+              <UserOrders />
             </div>
           </div>
         )}

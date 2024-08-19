@@ -1,12 +1,13 @@
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useNavigate } from "react-router-dom";
 import useUserDetails from "../hooks/useUserDetails";
 import { ClipLoader } from "react-spinners";
 import { clearCart } from "../store/slices/cartSlice";
-import { useDispatch } from "react-redux";
 
 const Checkout = () => {
+  const [showPayPalButtons, setShowPayPalButtons] = useState(false);
   const totalPrice = useSelector((state) => state.cart.totalAmount);
   const selectedProducts = useSelector((state) => state.cart.cartItems);
   const { userDetails, loading, error } = useUserDetails();
@@ -50,58 +51,67 @@ const Checkout = () => {
           <p className="text-xl">{formattedPrice}</p>
         </div>
         <div className="flex items-center justify-center">
-          <div className="paypal-button-container">
-            <PayPalButtons
-              style={{
-                layout: "vertical",
-                color: "blue",
-                shape: "rect",
-                label: "checkout",
-                height: 55,
-              }}
-              createOrder={(data, actions) => {
-                return actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: totalPrice.toFixed(2),
-                        currency_code: "EUR",
+          {!showPayPalButtons ? (
+            <button
+              onClick={() => setShowPayPalButtons(true)}
+              className="bg-blue-500 text-white w-full px-4 py-2 rounded-md"
+            >
+              Checkout
+            </button>
+          ) : (
+            <div className="paypal-button-container">
+              <PayPalButtons
+                style={{
+                  layout: "vertical",
+                  color: "blue",
+                  shape: "rect",
+                  label: "checkout",
+                  height: 55,
+                }}
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: totalPrice.toFixed(2),
+                          currency_code: "EUR",
+                        },
                       },
+                    ],
+                    application_context: {
+                      shipping_preference: "NO_SHIPPING",
+                      user_action: "PAY_NOW",
                     },
-                  ],
-                  application_context: {
-                    shipping_preference: "NO_SHIPPING",
-                    user_action: "PAY_NOW",
-                  },
-                });
-              }}
-              onApprove={(data, actions) => {
-                return actions.order.capture().then((details) => {
-                  const payerName = details.payer.name.given_name;
-                  const transactionId = details.id;
-                  const amount = details.purchase_units[0].amount.value;
-
-                  fetch("/api/purchases/added", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                      payerName,
-                      transactionId,
-                      amount,
-                      products: selectedProducts,
-                      userId: userDetails._id,
-                    }),
                   });
+                }}
+                onApprove={(data, actions) => {
+                  return actions.order.capture().then((details) => {
+                    const payerName = details.payer.name.given_name;
+                    const transactionId = details.id;
+                    const amount = details.purchase_units[0].amount.value;
 
-                  dispatch(clearCart());
+                    fetch("/api/purchases/added", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        payerName,
+                        transactionId,
+                        amount,
+                        products: selectedProducts,
+                        userId: userDetails._id,
+                      }),
+                    });
 
-                  navigate("/payment-success", {
-                    state: { payerName, transactionId, amount: `€${amount}` },
+                    dispatch(clearCart());
+
+                    navigate("/payment-success", {
+                      state: { payerName, transactionId, amount: `€${amount}` },
+                    });
                   });
-                });
-              }}
-            />
-          </div>
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
     </PayPalScriptProvider>
