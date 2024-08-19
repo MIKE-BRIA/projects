@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import UserRoutes from "./routes/user.routes.js";
 import ProductRoutes from "./routes/product.routes.js";
 import PurchasesRoutes from "./routes/purchases.routes.js";
+import CartRoutes from "./routes/cart.routes.js";
 import { v2 as cloudinary } from "cloudinary";
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use(cookieParser());
 app.use("/api/users", UserRoutes);
 app.use("/api/products", ProductRoutes);
 app.use("/api/purchases", PurchasesRoutes);
+app.use("/api/cart", CartRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
