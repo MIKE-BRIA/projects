@@ -5,6 +5,7 @@ const productSchema = new mongoose.Schema({
   name: { type: "String", required: true },
   quantity: { type: "String", required: true },
   price: { type: Number, required: true },
+  productImg: { type: "String" },
 });
 
 const purchaseSchema = new mongoose.Schema({
@@ -15,7 +16,7 @@ const purchaseSchema = new mongoose.Schema({
   paymentMethod: { type: "String" },
   orderStatus: {
     type: "String",
-    enum: ["pending", "shipped", "delivered"],
+    enum: ["pending", "shipped", "delivered", "canceled"],
     default: "pending",
   },
   shippingAddress: {
