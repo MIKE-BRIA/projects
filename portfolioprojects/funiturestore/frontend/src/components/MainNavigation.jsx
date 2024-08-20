@@ -56,7 +56,7 @@ const MainNavigation = () => {
           <nav className="space-x-16 text-black text-lg">
             <Link to="/">Home</Link>
             <Link to="/shop">Shop</Link>
-            <Link to="/about">About</Link>
+            {/* <Link to="/about">About</Link> */}
             <Link to="/contact">Contact</Link>
             {/* Conditionally render Admin link if userDetails exists and isAdmin is true */}
             {!loading && userDetails && userDetails.isAdmin && (
