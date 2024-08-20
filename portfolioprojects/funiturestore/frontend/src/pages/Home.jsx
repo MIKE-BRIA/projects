@@ -4,6 +4,7 @@ import useGetProducts from "../hooks/useGetProduct";
 // import ProductCard from "../components/productCard";
 import ProductCard from "../components/productCard";
 import { ClipLoader } from "react-spinners";
+import Foot from "../components/Foot";
 
 const Home = () => {
   const { products, loading, error } = useGetProducts(
@@ -94,6 +95,7 @@ const Home = () => {
           </Link>
         </h2>
       </div>
+      <Foot />
     </>
   );
 };
