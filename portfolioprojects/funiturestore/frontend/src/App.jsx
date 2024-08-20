@@ -19,6 +19,8 @@ import PaymentSuccess from "./components/PaymentSucess";
 import NotAuthorized from "./components/NotAuthorized";
 import ProtectedRoute from "./hooks/useProtectedRoute";
 import PurchasedItem from "./components/PurchasedItem";
+import Contact from "./pages/Contact";
+import About from "./pages/About";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,8 @@ const router = createBrowserRouter([
       { path: "signup", element: <Signup /> },
       { path: "login", element: <Login /> },
       { path: "shop", element: <Shop /> },
+      { path: "contact", element: <Contact /> },
+      { path: "about", element: <About /> },
       { path: "profile", element: <Profile /> },
       { path: "cart", element: <Cart /> },
       { path: "payment-success", element: <PaymentSuccess /> },
