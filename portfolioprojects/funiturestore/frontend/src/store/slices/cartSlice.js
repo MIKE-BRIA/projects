@@ -1,10 +1,46 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   cartItems: [],
   totalQuantity: 0,
   totalAmount: 0,
 };
+
+export const fetchCartItems = createAsyncThunk(
+  "cart/fetchItems",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`/api/cart/getCart/${userId}`);
+      if (!res.ok) throw new Error("Failed to fetch cart items");
+
+      const data = await res.json();
+      console.log(data);
+      return data.reverse();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const saveCartItem = createAsyncThunk(
+  "cart/saveCartItem",
+  async (item, { rejectWithValue }) => {
+    try {
+      const res = await fetch("/api/cart/addtocart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(item),
+      });
+
+      if (!res.ok) return res.status(400).json("error");
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const cartSlice = createSlice({
   name: "cart",
@@ -78,6 +114,19 @@ const cartSlice = createSlice({
       state.totalQuantity = 0;
       state.totalAmount = 0;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCartItems.fulfilled, (state, action) => {
+        state.cartItems = action.payload;
+        state.totalQuantity = action.payload.reduce(
+          (total, item) => total + item.totalPrice,
+          0
+        );
+      })
+      .addCase(fetchCartItems.rejected, (state, action) => {
+        console.error("Failed to fetch cart items:", action.payload);
+      });
   },
 });
 
