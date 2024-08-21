@@ -5,9 +5,10 @@ import useGetProducts from "../hooks/useGetProduct";
 import { Link } from "react-router-dom";
 import ProductCard from "./productCard";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart } from "../store/slices/cartSlice";
+import { addItemToCart, saveCartItem } from "../store/slices/cartSlice";
 import { useEffect } from "react";
 import useShowToast from "../hooks/useShowToast";
+import useUserDetails from "../hooks/useUserDetails";
 
 const ProductPage = () => {
   const { category, id } = useParams();
@@ -21,6 +22,7 @@ const ProductPage = () => {
   const { products, loading: loaded } = useGetProducts(
     `/api/products/getProducts/category/${category}`
   );
+  const { userDetails } = useUserDetails();
 
   useEffect(() => {
     console.log(cartItems);
@@ -50,13 +52,28 @@ const ProductPage = () => {
   const displayedProducts = products.slice(0, 8);
 
   const handleAddToCart = () => {
+    if (!userDetails) {
+      showToast("Please login to add item to cart");
+      return;
+    }
+    const item = {
+      productId: product._id,
+      name: product.name,
+      price: product.price,
+      img: product.img,
+      quantity: 1,
+      user: userDetails._id,
+    };
+
     dispatch(
       addItemToCart({
         id: product._id,
         name: product.name,
         price: product.price,
         img: product.img,
-      })
+      }),
+
+      dispatch(saveCartItem(item))
     );
     showToast("Item added to cart successfully");
   };

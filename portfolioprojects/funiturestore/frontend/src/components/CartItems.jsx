@@ -37,9 +37,11 @@ const CartItems = () => {
   };
 
   const handleDelete = (id) => {
-    console.log("Deleting item with ID:", id); // Debug log
+    // console.log("Deleting item with ID:", id);
     dispatch(deleteItem(id));
   };
+
+  // console.log("Cart items:", cartItems);
 
   return (
     <div className="bg-gray-300 p-6 rounded-md">
@@ -49,7 +51,7 @@ const CartItems = () => {
       {cartItems.length ? (
         cartItems.map((cart) => (
           <div
-            key={cart.id}
+            key={cart._id}
             className="border-t border-gray-300 pt-2 py-6 flex justify-between"
           >
             <div className="flex flex-col gap-6">
@@ -75,7 +77,7 @@ const CartItems = () => {
             <div className="flex flex-col justify-between">
               <div>
                 <p className="text-xl">
-                  {formatCurrency(cart.totalPrice, "en-US", "EUR")}
+                  {formatCurrency(Number(cart.totalPrice), "en-US", "EUR")}
                 </p>
               </div>
               <div className="flex gap-2">
