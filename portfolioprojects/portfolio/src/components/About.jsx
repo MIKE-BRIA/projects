@@ -9,6 +9,7 @@ const techs = [
   "Git/Github",
   "Postman",
   "Mongodb",
+  "Typescript",
 ];
 
 const About = () => {
@@ -29,13 +30,19 @@ const About = () => {
           <div className="md:w-1/2 w-full md:pl-8">
             <h1 className="text-xl font-bold mb-4">About Me</h1>
             <p className="mb-4">
-              I am currently a student at
-              <b> Murang&apos;a University of Technology </b>
-              taking a bachelor&apos;s of Medical Laboratory Science. My goal is
-              to use the knowledge I have gained over the years to develop
-              products that I find passion in and am sure will have an impact on
-              humanity.
+              I am passionate about leveraging technology to solve complex
+              problems across various fields. With a strong foundation in both
+              scientific research and software development, I am driven to
+              create innovative solutions that address real-world challenges and
+              make a positive impact on society. My goal is to apply my
+              technical skills and interdisciplinary knowledge to develop
+              software products that enhance human well-being, drive progress,
+              and contribute to a better future. I am eager to bring my
+              expertise and dedication to a software engineering role where I
+              can continue to grow, learn, and make a meaningful difference
+              across multiple domains.
             </p>
+
             <p className="mb-4">
               The following are the tech stacks that I use regularly:
             </p>
@@ -52,9 +59,13 @@ const About = () => {
               </ul>
             </div>
             <div className="mt-4">
-              <button className="border-2 border-black p-2">
+              <a
+                href="/BrianMichaelresume.docx" // Ensure the path matches where the resume is located in the public folder
+                download
+                className="border-2 border-black p-2"
+              >
                 Download Resume
-              </button>
+              </a>
             </div>
           </div>
         </div>

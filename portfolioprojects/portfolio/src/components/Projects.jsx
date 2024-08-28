@@ -1,11 +1,21 @@
 const projects = [
   {
-    img: "/images/project1.jpg",
-    title: "Project 1",
-    parag: "This is a description of Project 1.",
-    tech: ["react"],
-    link: "https://live-demo-link.com",
-    github: "https://github.com/username/project1",
+    img: "/images/threads.png",
+    title: "threads clone",
+    parag:
+      "This is a clone of threads that is also almost familiar to twitter. This project helped me understand socket.io and more other things",
+    tech: [
+      "react",
+      "nodejs",
+      "chakra-ui",
+      "javascript",
+      "Git/Github",
+      "socket.io",
+      "tailwind css",
+      "mongodb",
+    ],
+    link: "https://threads-m0a4.onrender.com",
+    github: "https://github.com/MIKE-BRIA/threads",
   },
   {
     img: "/projectimages/dashboo.png",
@@ -16,6 +26,25 @@ const projects = [
     link: "https://dashland.web.app/",
     github:
       "https://github.com/MIKE-BRIA/projects/tree/master/portfolioprojects/dashlandingpage",
+  },
+  {
+    img: "/images/funiturestore.png",
+    title: "Funiture store",
+    parag:
+      "This is an ecommerce platform for selling funiture items. The funiture are grouped into category",
+    tech: [
+      "react",
+      "nodejs",
+      "chakra-ui",
+      "javascript",
+      "Git/Github",
+      "tailwind css",
+      "mongodb",
+      "postman",
+      "redux",
+    ],
+    link: "https://funiturestore.onrender.com",
+    github: "https://github.com/MIKE-BRIA/funiturestore",
   },
 ];
 
