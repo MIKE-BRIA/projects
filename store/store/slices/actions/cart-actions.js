@@ -46,3 +46,21 @@ export function fetchCartData() {
     }
   };
 }
+
+export function updateCartData(cart) {
+  return async (dispatch) => {
+    const updateData = async () => {
+      const response = await axios.put("/api/cart", cart);
+
+      if (response !== 200) {
+        throw new Error("could not update cart data");
+      }
+    };
+
+    try {
+      await updateData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}

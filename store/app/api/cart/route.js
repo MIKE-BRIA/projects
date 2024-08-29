@@ -28,3 +28,35 @@ export async function GET(req) {
     headers: { "Content-Type": "application/json" },
   });
 }
+
+export async function PUT(req) {
+  try {
+    await mongooseConnect();
+
+    const cartData = await req.json();
+    const existingCart = await Cart.findOne({ userId: cartData.userId });
+
+    if (!existingCart) {
+      return new Response(JSON.stringify({ error: "Cart does not exist" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    existingCart.products = existingCart.products.concat(cartData.products);
+    await existingCart.save();
+
+    return new Response(JSON.stringify(existingCart), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    let status = 500;
+    let message = "Internal Server Error";
+
+    return new Response(JSON.stringify({ error: message }), {
+      status: status,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}

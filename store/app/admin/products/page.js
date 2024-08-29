@@ -5,7 +5,6 @@ import Link from "next/link";
 import axios from "axios";
 import { withSwal } from "react-sweetalert2";
 import AdminLayout from "@/components/admin/adminlayout";
-import Spinner from "@/components/spinner";
 
 export function Product({ swal }) {
   const [products, setProducts] = useState([]);
@@ -61,11 +60,7 @@ export function Product({ swal }) {
               <td></td>
             </tr>
           </thead>
-          {/* {loading && (
-            <div className="flex items-center justify-center min-h-screen">
-              <Spinner />
-            </div>
-          )} */}
+
           <tbody>
             {products.map((product) => (
               <tr key={product._id}>
