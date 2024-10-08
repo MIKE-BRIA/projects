@@ -7,6 +7,7 @@ import ProductRoutes from "./routes/product.routes.js";
 import PurchasesRoutes from "./routes/purchases.routes.js";
 import CartRoutes from "./routes/cart.routes.js";
 import { v2 as cloudinary } from "cloudinary";
+import path from "path";
 
 dotenv.config();
 
@@ -33,9 +34,15 @@ app.use("/api/products", ProductRoutes);
 app.use("/api/purchases", PurchasesRoutes);
 app.use("/api/cart", CartRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+let PORT = process.env.PORT || 3000;
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+  });
+}
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

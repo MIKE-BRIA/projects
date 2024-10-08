@@ -4,8 +4,9 @@ import { IoMdAdd } from "react-icons/io";
 import { FaMinus } from "react-icons/fa";
 import {
   removeItemFromCart,
-  updateCartItemQuantity,
+  // updateCartItemQuantity,
   deleteItem,
+  updateCartData,
 } from "../store/slices/cartSlice";
 
 const CartItems = () => {
@@ -20,19 +21,33 @@ const CartItems = () => {
     }).format(amount);
   };
 
+  // const handleIncrement = (item) => {
+  //   dispatch(
+  //     updateCartItemQuantity({ id: item.id, quantity: item.quantity + 1 })
+  //   );
+  // };
+
+  // const handleDecrement = (item) => {
+  //   if (item.quantity > 1) {
+  //     dispatch(
+  //       updateCartItemQuantity({ id: item.id, quantity: item.quantity - 1 })
+  //     );
+  //   } else {
+  //     dispatch(removeItemFromCart(item.id));
+  //   }
+  // };
+
   const handleIncrement = (item) => {
-    dispatch(
-      updateCartItemQuantity({ id: item.id, quantity: item.quantity + 1 })
-    );
+    const newQuantity = item.quantity + 1;
+    dispatch(updateCartData({ cartItemId: item._id, quantity: newQuantity }));
   };
 
   const handleDecrement = (item) => {
     if (item.quantity > 1) {
-      dispatch(
-        updateCartItemQuantity({ id: item.id, quantity: item.quantity - 1 })
-      );
+      const newQuantity = item.quantity - 1;
+      dispatch(updateCartData({ cartItemId: item._id, quantity: newQuantity }));
     } else {
-      dispatch(removeItemFromCart(item.id));
+      dispatch(removeItemFromCart(item._id));
     }
   };
 
@@ -40,8 +55,6 @@ const CartItems = () => {
     // console.log("Deleting item with ID:", id);
     dispatch(deleteItem(id));
   };
-
-  // console.log("Cart items:", cartItems);
 
   return (
     <div className="bg-gray-300 p-6 rounded-md">

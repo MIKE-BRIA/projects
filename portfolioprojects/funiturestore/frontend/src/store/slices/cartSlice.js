@@ -22,6 +22,26 @@ export const fetchCartItems = createAsyncThunk(
   }
 );
 
+export const updateCartData = createAsyncThunk(
+  "cart/updatecartData",
+  async ({ cartItemId, quantity }, { rejectWithValue }) => {
+    try {
+      const res = await fetch("/api/cart/updateCart", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cartItemId, quantity }),
+      });
+
+      if (!res.ok) throw new Error("Failed to update cart Item");
+
+      const data = await res.json();
+      return data.cartItem;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const saveCartItem = createAsyncThunk(
   "cart/saveCartItem",
   async (item, { rejectWithValue }) => {
@@ -119,13 +139,36 @@ const cartSlice = createSlice({
     builder
       .addCase(fetchCartItems.fulfilled, (state, action) => {
         state.cartItems = action.payload;
-        state.totalQuantity = action.payload.reduce(
+        state.totalAmount = action.payload.reduce(
           (total, item) => total + item.totalPrice,
+          0
+        );
+        state.totalQuantity = action.payload.reduce(
+          (total, item) => total + item.quantity,
           0
         );
       })
       .addCase(fetchCartItems.rejected, (state, action) => {
         console.error("Failed to fetch cart items:", action.payload);
+      })
+      .addCase(updateCartData.fulfilled, (state, action) => {
+        const updatedItem = action.payload;
+        const existingItem = state.cartItems.find(
+          (item) => item.id === updatedItem.id
+        );
+
+        if (existingItem) {
+          existingItem.quantity = updatedItem.quantity;
+          existingItem.totalPrice = updatedItem.totalPrice;
+          state.totalQuantity = state.cartItems.reduce(
+            (total, item) => total + item.quantity,
+            0
+          );
+          state.totalAmount = state.cartItems.reduce(
+            (total, item) => total + item.totalPrice,
+            0
+          );
+        }
       });
   },
 });

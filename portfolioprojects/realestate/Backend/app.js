@@ -17,7 +17,7 @@ const sessionStore = new mongoDBStore({
   collection: "sessions",
 });
 
-// Middleware to parse incoming JSON requests
+//! Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,20 +33,17 @@ app.use(
   })
 );
 
-// Use the admin routes
-app.use(userRoutes);
+//!Routes
+app.use("/api/users", userRoutes);
 app.use(adminRoutes);
-app.use(agentRoutes);
+app.use("/api", agentRoutes);
 
-let port = 3000;
-if (process.env.PORT) {
-  port = process.env.PORT;
-}
+let PORT = process.env.PORT || 3000;
 
 mongooseConnect()
   .then(() => {
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
     });
   })
   .catch((error) => {
